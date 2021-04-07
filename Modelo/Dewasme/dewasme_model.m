@@ -6,9 +6,11 @@ Fin     = u(1);     % L/h
 Sin     = u(2);     % g/L
 
 % Parámetros
+
 osat    = 0.035;    % g/L
 csat    = 1.286;    % g/L
 kla     = 180;      % h-1
+
 % Coeficiente kla tiene que ser estimado por correlaciones
 % Paper: https://doi.org/10.1016/j.ijheatmasstransfer.2018.04.045
 % Mientras utilicé un kla estimado de la respuesta de Carlos Araujo
@@ -49,6 +51,8 @@ OTR     = kla*(osat-x(4));
 CTR     = kla*(x(5)-csat);
 
 % Ecuaciones Diferenciales
+
+dxdt    = zeros(6,1);
 dxdt(1) = (kx1*r1+kx2*r2+kx3*r3)*x(1)-D*x(1);     % Biomasa     dXdt
 dxdt(2) = -(ks1*r1+ks2*r2)*x(1)+D*Sin-D*x(2);     % Sustrato    dSdt
 dxdt(3) = (kp2*r2-kp3*r3)*x(1)-D*x(3);            % Producto    dPdt
