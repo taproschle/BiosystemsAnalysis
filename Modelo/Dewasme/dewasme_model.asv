@@ -1,18 +1,10 @@
 function dxdt = dewasme_model(~,x,u)
 
-% Variables manipuladas
 
-Fin     = u(1);     % L/h
-Sin     = u(2);     % g/L
 
 % Parámetros
-osat    = 0.035;    % g/L
-csat    = 1.286;    % g/L
-kla     = 180;      % h-1
-% Coeficiente kla tiene que ser estimado por correlaciones
-% Paper: https://doi.org/10.1016/j.ijheatmasstransfer.2018.04.045
-% Mientras utilicé un kla estimado de la respuesta de Carlos Araujo
-% https://www.researchgate.net/post/What_is_the_common_transfer_coefficient_in_stirred_tank_bioreactor_in_both_lab_and_industrial_scale
+osat    = 0.035;    %g/L
+csat    = 1.286;    %g/L
 
 kx1     = 0.49;
 kx2     = 0.05;
@@ -47,6 +39,7 @@ r3      = max(0,(kos*(rscrit-rs)/kop)*(x(3)/(x(3)+kp)))/kp3;
 D       = Fin/x(6);
 OTR     = kla*(osat-x(4));
 CTR     = kla*(x(5)-csat);
+Scrit
 
 % Ecuaciones Diferenciales
 dxdt(1) = (kx1*r1+kx2*r2+kx3*r3)*x(1)-D*x(1);     % Biomasa     dXdt
