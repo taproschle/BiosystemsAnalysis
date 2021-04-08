@@ -6,6 +6,6 @@
 	- Dewasme
 	- Anane
 	- Otro
-## Links de interéss
+## Links de interés
 - [Overleaf link](https://www.overleaf.com/7397437344dmkxbnfhpxcs)
 
