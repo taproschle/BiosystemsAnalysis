@@ -1,0 +1,4 @@
+/Papers/
+*.ini
+/Anane model
+*.asv
