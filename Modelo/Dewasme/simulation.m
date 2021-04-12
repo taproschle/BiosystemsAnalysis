@@ -13,14 +13,14 @@ x0 = [X0 S0 P0 O0 C0 V0]';
 
 % Variables Manipuladas
 
-Fin = 0.1;  %L/h
+Fin = 0.07;  %L/h
 Sin = 350;  %g/L
 
 u = [Fin Sin];
 
 % Resolver Sistema
 
-tspan = [0 50]';
+tspan = [0 25]';
 [t,x] = ode15s(@(t,x) dewasme_model(t,x,u), tspan, x0);
 
 X = x(:,1);
