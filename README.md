@@ -5,7 +5,7 @@
 - 2 o 3 modelos
 	- Dewasme
 	- Anane
-	- Otro
+	- Xu
 ## Links de interés
 - [Overleaf link](https://www.overleaf.com/7397437344dmkxbnfhpxcs)
 - [Drive Workshops](https://drive.google.com/drive/u/1/folders/0AOMHRE78G4R_Uk9PVA)
