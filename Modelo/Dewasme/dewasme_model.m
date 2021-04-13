@@ -1,9 +1,17 @@
-function dxdt = dewasme_model(~,x,u)
+function dxdt = dewasme_model(t,x,u)
 
-% Variables manipuladas
+% Variables de Estado
 
-Fin     = u(1);     % L/h
-Sin     = u(2);     % g/L
+dxdt    = zeros(6,1);
+
+X       = x(1);
+S       = x(2);
+P       = x(3);
+O       = x(4);
+C       = x(5);
+V       = x(6);
+
+
 
 % Parámetros
 
@@ -38,26 +46,37 @@ kip     = 10;
 kos     = ko1;
 kop     = ko3;
 
+% Variables manipuladas
+
+muset   = u(1);
+X0      = u(2);
+Sin     = u(3);
+Fin     = muset*X0*exp(muset*t)/(kx1*Sin);
+
 % Ecuaciones constitutivas
 
-rs      = mus*(x(2)/(x(2)+ks));
-ro      = muo*(x(4)/(x(4)+ko))*(kip/(kip+x(3)));
+rs      = mus*(S/(S+ks));
+ro      = muo*(O/(O+ko))*(kip/(kip+P));
 rscrit  = ro/kos;
 r1      = min(rs,rscrit)/ks1;
 r2      = max(0,(rs-rscrit))/ks2;
-r3      = max(0,(kos*(rscrit-rs)/kop)*(x(3)/(x(3)+kp)))/kp3;
-D       = Fin/x(6);
-OTR     = kla*(osat-x(4));
-CTR     = kla*(x(5)-csat);
+r3      = max(0,(kos*(rscrit-rs)/kop)*(P/(P+kp)))/kp3;
+D       = Fin/V;
+OTR     = kla*(osat-O);
+CTR     = kla*(C-csat);
 
 % Ecuaciones Diferenciales
 
-dxdt    = zeros(6,1);
-dxdt(1) = (kx1*r1+kx2*r2+kx3*r3)*x(1)-D*x(1);     % Biomasa     dXdt
-dxdt(2) = -(ks1*r1+ks2*r2)*x(1)+D*Sin-D*x(2);     % Sustrato    dSdt
-dxdt(3) = (kp2*r2-kp3*r3)*x(1)-D*x(3);            % Producto    dPdt
-dxdt(4) = -(ko1*r1+ko2*r2+ko3*r3)*x(1)-D*x(4)+OTR;% Oxígeno     dOdt
-dxdt(5) = (kc1*r1+kc2*r2+kc3*r3)*x(1)-D*x(5)-CTR; % Carb. Diox. dCdt
+
+dxdt(1) = (kx1*r1+kx2*r2+kx3*r3)*X-D*X;     % Biomasa     dXdt
+dxdt(2) = -(ks1*r1+ks2*r2)*X+D*Sin-D*S;     % Sustrato    dSdt
+dxdt(3) = (kp2*r2-kp3*r3)*X-D*P;            % Producto    dPdt
+dxdt(4) = -(ko1*r1+ko2*r2+ko3*r3)*X-D*O+OTR;% Oxígeno     dOdt
+dxdt(5) = (kc1*r1+kc2*r2+kc3*r3)*X-D*C-CTR; % Carb. Diox. dCdt
 dxdt(6) = Fin;                                    % Volumen     dVdt
+
+% if O <= 0
+%     dxdt(4) = 0;
+% end
 
 end

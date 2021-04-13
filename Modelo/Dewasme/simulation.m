@@ -11,12 +11,12 @@ V0 = 6.8;   %L
 
 x0 = [X0 S0 P0 O0 C0 V0]';
 
-% Variables Manipuladas
+% Parámetros de entrada al modelo
 
-Fin = 0.07;  %L/h
-Sin = 350;  %g/L
+muset   = 0.295; %h-1
+Sin     = 350;  %g/L
 
-u = [Fin Sin];
+u = [muset X0 Sin];
 
 % Resolver Sistema
 
@@ -31,15 +31,18 @@ C = x(:,5);
 V = x(:,6);
 
 figure(1)
+tiledlayout(2,2)
+
+nexttile
 plot(t,X)
 hold on
 grid on
 plot(t,S)
 plot(t,P)
-legend('X','S','P')
+legend('X','S','P','Location','west')
 hold off
 
-figure(2)
+nexttile
 plot(t,O)
 hold on
 grid on
@@ -47,7 +50,7 @@ plot(t,C)
 legend('O','C')
 hold off
 
-figure(3)
+nexttile
 plot(t,V)
 legend('V')
 grid on
