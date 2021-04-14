@@ -13,10 +13,10 @@ x0 = [X0 S0 P0 O0 C0 V0]';
 
 % Parámetros de entrada al modelo
 
-muset   = 0.295; %h-1
+muset   = 0.29; %h-1
 Sin     = 350;  %g/L
 
-u = [muset X0 Sin];
+u = [muset X0 Sin V0];
 
 % Resolver Sistema
 
@@ -31,7 +31,7 @@ C = x(:,5);
 V = x(:,6);
 
 figure(1)
-tiledlayout(2,2)
+tiledlayout(2,1)
 
 nexttile
 plot(t,X)
@@ -50,7 +50,10 @@ plot(t,C)
 legend('O','C')
 hold off
 
-nexttile
+figure(2)
+semilogy(t,X, 'sr')
+
+figure(3)
 plot(t,V)
 legend('V')
 grid on
