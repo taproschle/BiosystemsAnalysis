@@ -4,24 +4,48 @@ function dydt = batchmodel(t,x)
 dydt = [];
 
 % parametros
-Yas = 0.667; % g/g stochiometric cte
-Yoa = 1.067;
-Yos = 1.067;
-Yxa = 0.4;
-Yxsof = 0.15;
-Yxsox = 0.51;
+Yas = 0.23; %  g A /g S stochiometric cte CARCAMO
+%Yas = 0.667; % XU
+Yoa = 20.66/1000; % g o2 / g A CARCAMO
+%Yoa = 1.067; % XU 
+
+Yos = 401/1000; % g o2 / g S CARCAMO
+%Yos = 1.067; % XU
+%Yxa = 14.55; % g DCW / gIP CARCAMO
+Yxa = 0.4; % XU
+Yxsof = 0.7; %CARCAMO
+%Yxsof = 0.15; % XU
+Yxsox = 0.3; % CARCAMO
+%Yxsox = 0.51; %XU
+
+
+%%
 Ca = 1/30; % mol Carbon / g acetato
 Cs = 1/30; % mol Carbon /g azucar
 Cx = 0.04; % mol Carbon / g biomasa
-Ka = 0.05; % g/L
-KiO = 4; % g/L fitting
-KiS = 5; % g/L fitting
-Ks = 0.05; % g/L
-qAcmax = 0.06; % g/g hr
+
+
+%%
+%KiO = 4; % g/L fitting
+Ka = 0.5236; % CARCAMO
+%Ka = 0.05; %XU
+KiS = 0.45; % g A /L fitting CARCAMO
+%KiS = 5; % XU
+Ks = 8; % g S/L CARCAMO
+%Ks = 0.05; % XU
+Ko = 0.0045; %g O/L CARCAMO
+%Ko = 1/100;
+qAcmax = 6; % g/g hr CARCAMO
+%qAcmax = 0.06; % XU
 qm = 0.04; % g/ g hr
-qOmax = 15.6; % mmol/g hr
-qSmax = 1.3; % g/g hr
+qOmax = 83.5/1000; % g/g hr CARCAMO
+%qOmax = 15.6*32/1000; % XU
+qSmax = 4.9; % g/g hr CARCAMO
+%qSmax = 1.3; % Xu
 muc = 0.55;
+Osat = 0.035;
+kla = 180; % [h-1]
+
 
 % variables de estado
 S = x(1); % sustrato [ g/L]
@@ -29,43 +53,24 @@ S = x(1); % sustrato [ g/L]
 A = x(2); % acetato [g/L]
 X = x(3); % biomasa [g/L]
 V = x(4); % volumen hasta ahora son 100ml parece [L]
+O = x(5); %g/L
 % ecs
-% oxidative pathway
-qS = ((qSmax)/(1+(A/KiS)))*(S/(S+Ks)); % glucose uptake [g g-1 celulas h-1]
-%disp(qS)
-qSox = qS;
-qSox_an = (qSox - qm)*Yxsox*Cx/Cs; 
-qSox_en = qSox - qSox_an;
-qOs = qSox_en*Yos;
-%qSox = qSox_an + qSox_en;
-%qSof = qS - qSox; 
-%disp(qOs)
-%if qOs > qOmax/(1+(A/KiO))-100
-    %qSof = qS*0.15;
-%end
-%qSof = qS*0.25;
-qSof = qS - qSox;
-%overflow
-qSof_an = qSof*Yxsof*Cx/Cs;
-qSof_en = qSof - qSof_an;
-qAp = qSof_en*Yas;
-qAc = qAcmax*A/(A + Ka);
-%disp(qAc)
-qAc_an = qAc*Yxa*Cx/Ca;
-qAc_en = qAc - qAc_an;
-%if qAc_en > ((qOmax - qOs)/Yoa)
-    %qAc_en = ((qOmax - qOs)/Yoa);
-%end
+% oxidative pathway; % glucose uptake [g g-1 celulas h-1]
+% relacion rutas metabolicas
+qS_T = qSmax*S / ((Ks + S)*(1 + A/KiS));
+qO_crit = qOmax*O / (Ko + O);
+qS_ox = min (qS_T , qO_crit /Yos ) ; 
+qS_of   = max (0 , qS_T - qS_ox) ; 
+qAc = min (qAcmax * A / (A + Ka) , (qO_crit - qS_ox*Yos) / Yoa) ;
+% ecs constitutivas 
+qS = qS_ox + qS_of;
+qA = qS_of*Yas - qAc; % qA produccion - qA de consumo
+mu = qS_ox*Yxsox + qS_of*Yxsof + qAc*Yxa; 
+qO2 = qS_ox*Yos + qAc*Yoa; % lo q se consume en la via oxidativa + lo que se consume en la via overflow
 
-qO = qOs + qAc_en*Yoa;
-%disp(qO)
-%if t < 8
-    %qO = 12;
-%end
+%qO = qOs + qAc*Yoa;
 
-
-%disp(qO);
-mu = (qSox - qm)*Yxsox + qSof*Yxsof + qAc*Yxa;
+%mu = (qS_ox - qm)*Yxsox + qS_of*Yxsof + qAc*Yxa;
 
 %edo
 
@@ -73,11 +78,11 @@ dydt(1) =  - qS*X; %sustrato
 %if t>=12 && t<=12.5
     %dydt(1) = -qS*X + 10;
 %end
-%dydt(2) = (qAp - qAc)*X; % acetato
-dydt(2) = (mu-muc)*X;
-dydt(3) = (muc)*X; % biomass
+dydt(2) = (qA)*X; % acetato
+%dydt(2) = (mu)*X;
+dydt(3) = (mu)*X; % biomass
 dydt(4) = 0; % volumen
-
+dydt(5) = -(qO2)*X + kla*(Osat-O);
 dydt = dydt';
 
 

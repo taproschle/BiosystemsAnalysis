@@ -58,7 +58,7 @@ u =[mu_set Xin Vin Sfeed]; % mu_Set XIN Vin Sin
 
 x0 = [10 0 Xin Vin 0.035]; % S Et X V O
 
-[t,x] = ode23s(@(t,x) fedbatch(t,x,u), tspan, x0,u);
+[t,x] = ode15s(@(t,x) fedbatch(t,x,u), tspan, x0,u);
 
     
 F = mu_set.*Vin.*Xin.*exp(mu_set.*t)./(Yxsox.*Sfeed);
@@ -81,13 +81,13 @@ subplot(2,2,3)
 
 yyaxis left
 plot(t,x(:,2),'b',"LineWidth",2);
-ylim([0 10]);
+ylim([0 2]);
 ylabel('Ethanol [g/L]')
 yyaxis right
 plot(t,F(:,1),'r',"LineWidth",2);
 ylabel('F [L/h]');
 legend('Ethanol','F(t)');
-ylim([0 01]);
+ylim([0 0.2]);
 xlabel('Time [h]')
 
 
