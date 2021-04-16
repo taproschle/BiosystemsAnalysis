@@ -38,8 +38,8 @@ ylabel('Biomass [g/l]')
 yyaxis right
 ylabel('S and A [g/l]')
 hold on
-plot(t1, y1(:, 3), "LineWidth", 1.2)
-plot(t1, y1(:, 4), "LineWidth", 1.2)
+plot(t1, y1(:, 3),'-b' , "LineWidth", 1.2)
+plot(t1, y1(:, 4),'-g' ,"LineWidth", 1.2)
 grid on
 legend("Biomass", "Sustrate", "Acetate", "LineWidth", 0.7, "location", "northwest")
 title("Evolution of the system for E.coli")
