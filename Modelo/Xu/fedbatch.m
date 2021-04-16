@@ -3,7 +3,7 @@ function dydt = fedbatch(t,x,u)
 %   Detailed explanation goes here
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
-global Yas Yoa Yos Yxa Yxsof Yxsox Ka KiS Ks Ko qAcmax qOmax qSmax Osat kla
+global Yas Yoa Yos Yxa Yxsof Yxsox Ka KiS Ks Ko qAcmax qOmax qSmax Osat kla mumax
 dydt = [];
 mu_set = u(1);
 Xin = u(2);
@@ -42,6 +42,10 @@ qAc = min (qAcmax * A / (A + Ka) , (qO_crit - qS_ox*Yos) / Yoa) ;
 qS = qS_ox + qS_of;
 qA = qS_of*Yas - qAc; % qA produccion - qA de consumo
 mu = qS_ox*Yxsox + qS_of*Yxsof + qAc*Yxa; 
+% if mu >= mumax
+%     mu = mumax;
+% end
+% disp(mu)
 qO2 = qS_ox*Yos + qAc*Yoa; % lo q se consume en la via oxidativa + lo que se consume en la via overflow
 
 %qO = qOs + qAc*Yoa;
