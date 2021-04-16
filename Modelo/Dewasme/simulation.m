@@ -16,7 +16,6 @@ x0 = [X0 S0 P0 O0 C0 V0]';
 muset   = 0.29; %h-1
 Sin     = 350;  %g/L
 
-u = [muset X0 Sin V0]';
 u1 = [0.25 X0 Sin V0]';
 u2 = [0.27 X0 Sin V0]';
 u3 = [0.29 X0 Sin V0]';
@@ -42,6 +41,8 @@ g3 = [0.25490 0.670588 0.36470]';
 g4 = [0.00000 0.352941 0.19607]';
 greens = [g1 g2 g3 g4];
 
+forms = ["--" , "-." , "-" , "--"];
+
 figure(1);
 subplot(2,1,1)
 for i = 1:4
@@ -49,14 +50,14 @@ for i = 1:4
     tspan = [0 25]';
     [t,x] = ode15s(@(t,x) dewasme_model(t,x,ui), tspan, x0, options);
     X = x(:,1);
-    plot(t,X,'Color',reds(:,i),'linewidth',1)
+    plot(t,X,'Color',reds(:,i),'linewidth',1,'LineStyle',forms(i))
     hold on
 end
 grid on
 legend('\mu = 0.25','\mu = 0.27','\mu = 0.29','\mu = 0.31','linewidth',1,'Location','west')
 xlabel('Time [hr]')
 ylabel('Biomass Concentration [g/L]')
-title('Effect of \mu_{set} in Biomass and Substrate')
+title('Effect of \mu_{set} in Biomass and Ethanol Concentrations')
 hold off
 
 subplot(2,1,2)
@@ -64,20 +65,21 @@ for i = 1:4
     ui = uT(:,i)';
     tspan = [0 25]';
     [t,x] = ode15s(@(t,x) dewasme_model(t,x,ui), tspan, x0, options);
-    S = x(:,2);
-    plot(t,S,'Color',greens(:,i),'linewidth',1)
+    P = x(:,3);
+    plot(t,x(:,3),'Color',greens(:,i),'linewidth',1,'LineStyle',forms(i))
     hold on
 end
-axis([0 25 0.012 0.03])
 grid on
+%axis([0 25 0 1.1])
 legend('\mu = 0.25','\mu = 0.27','\mu = 0.29','\mu = 0.31','linewidth',1)
 xlabel('Time [hr]')
-ylabel('Substrate Concentration [g/L]')
+ylabel('Ethanol Concentration [g/L]')
 hold off
 
 
 %%
 tspan = [0 25]';
+u = [0.31 X0 Sin V0];
 [t,x] = ode15s(@(t,x) dewasme_model(t,x,u), tspan, x0, options);
 
 X = x(:,1);
@@ -91,26 +93,27 @@ fig = figure(2);
 left_color = [0 0 0];
 right_color = [0 0 0];
 set(fig,'defaultAxesColorOrder',[left_color; right_color]);
-tiledlayout(2,1)
-nexttile
-yyaxis right
-plot(t,X,'-g','linewidth',1)
-ylabel('Concentration [gr/L]')
-xlabel('Time [hr]')
-axis([0 25 0 150])
-hold on
-grid on
+subplot(2,1,1)
 yyaxis left
-plot(t,S,'-r','linewidth',1)
-plot(t,P,'-b','linewidth',1)
+plot(t,X,'-r','linewidth',1)
+hold on
+ylabel('Biomass [gr/L]')
+xlabel('Time [hr]')
+
+
+grid on
+yyaxis right
+plot(t,S,'-b','linewidth',1)
+hold on
+plot(t,P,'-g','linewidth',1)
 legend('X','S','P','Location','west')
 title('State Variables in Dewasme Model')
 xlabel('Time [hr]')
-ylabel('Concentration [gr/L]')
-axis([0 25 0 1.2])
+ylabel('S and P [gr/L]')
+%axis([0 25 0 1.2])
 hold off
 
-nexttile
+subplot(2,1,2)
 yyaxis left
 plot(t,O,'-c','linewidth',1)
 axis([0 25 0.025 0.038])

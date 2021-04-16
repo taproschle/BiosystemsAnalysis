@@ -11,8 +11,6 @@ O       = x(4);
 C       = x(5);
 V       = x(6);
 
-
-
 % Parámetros
 
 osat    = 0.035;    % g/L
@@ -54,10 +52,12 @@ Sin     = u(3);
 V0      = u(4);
 Fin     = muset*X0*V0*exp(muset*t)/(kx1*Sin);
 
+
 % Vmax    = 20;
 % if V >= 0.8*Vmax
 %     Fin = 0;
 % end
+
 
 % Ecuaciones constitutivas
 
@@ -72,8 +72,6 @@ OTR     = kla*(osat-O);
 CTR     = kla*(C-csat);
 
 % Ecuaciones Diferenciales
-
-
 
 dxdt(1) = (kx1*r1+kx2*r2+kx3*r3)*X-D*X;     % Biomasa     dXdt
 dxdt(2) = -(ks1*r1+ks2*r2)*X+D*Sin-D*S;     % Sustrato    dSdt
