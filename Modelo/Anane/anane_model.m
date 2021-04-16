@@ -1,4 +1,3 @@
-%TODO: put the units and the description of each parameter and equation
 function dxdt = anane_model(t, x)
 
 X = x(1);
@@ -25,15 +24,11 @@ Yxa    = 0.5718;
 Yem    = 0.5333;
 Yos    = 1.5620;
 Yxsof  = 0.2268;
-%Si     = 0; %g/L concentración de entrada
-
-if t < 10
-    F = 0;
-    Si = 0;
-else
-    F = 0.035;
-    Si = 300;
-end
+% Parameters for DOTa ode
+DOT_ast = 99;
+KLa = 220;
+H = 10000;
+Kp = 3600 / 35;
 
 % Algebraic equations
 qs = qS_max/(1 + A/Kia)*(S/(S + Ks)); 
@@ -46,19 +41,28 @@ qa = pa - qsA; % Just for plot
 mu = (qsox - qm)*Yem + qsof*Yxsof + qsA*Yxa;
 qo = (qsox - qm)*Yos + qsA*Yoa; % Para DOT
 
-% Falta definir la ley de control (flujo de entrada)
-% Tambien falta el KLa y H para el DOT 
-% Falta el tau
-% ODEs 
+%fprintf("El qsa es %f \n", qsA)
+mu_set = 0.25; %1/h
+if t < 11.44
+    F = 0;
+    Si = 300;
+elseif t < 16.3
+    Si = 300;
+    F = mu_set/(Yxa*Si)*2*0.17*exp(mu_set*t);
+    disp(F)
+else
+    Si = 300;
+    F = 0.0128;%8.7e-3
+end
+%fprintf("Feed %f en t = %f \n", F, t)
+
+if S <= 0; S = 0; end
+% ODEs
+qsA = qsA / 10;
 dxdt = zeros(6,1);
 dxdt(1) = -F/V*X + mu*X;
 dxdt(2) = F/V*(Si - S) - qs*X;
-dxdt(3) = -F/V*A + qsA*X;
-% Definicion parcial
-DOT_ast = 99;
-KLa = 220;
-H = 10000;
-Kp = 3600 / 35;
+dxdt(3) = -F/V*A + qsA*X;        % Acetato
 dxdt(4) = KLa*(DOT_ast - DOTa) - qo*X*H;
 dxdt(5) = Kp*(DOTa - DOT);
 dxdt(6) = F;
