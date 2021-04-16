@@ -53,8 +53,8 @@ X0      = u(2);
 Sin     = u(3);
 V0      = u(4);
 Fin     = muset*X0*V0*exp(muset*t)/(kx1*Sin);
-% Vmax    = 20;
 
+% Vmax    = 20;
 % if V >= 0.8*Vmax
 %     Fin = 0;
 % end
