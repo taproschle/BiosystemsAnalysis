@@ -1,4 +1,4 @@
-function dxdt = anane_model(t, x)
+function dxdt = anane_model(t, x, u)
 
 X = x(1);
 S = x(2);
@@ -6,6 +6,12 @@ A = x(3);
 DOTa = x(4);
 DOT = x(5);
 V = x(6);
+
+X0 = u(1);
+V0 = u(2);
+Sin = u(3);
+muset = u(4);
+
 
 % Parameters
 Kap    = 0.5052;
@@ -42,18 +48,9 @@ mu = (qsox - qm)*Yem + qsof*Yxsof + qsA*Yxa;
 qo = (qsox - qm)*Yos + qsA*Yoa; % Para DOT
 
 %fprintf("El qsa es %f \n", qsA)
-mu_set = 0.25; %1/h
-if t < 11.44
-    F = 0;
-    Si = 300;
-elseif t < 16.3
-    Si = 300;
-    F = mu_set/(Yxa*Si)*2*0.17*exp(mu_set*t);
-    disp(F)
-else
-    Si = 300;
-    F = 0.0128;%8.7e-3
-end
+
+F = muset/(Yxa*Sin)*X0*V0*exp(muset*t);
+
 %fprintf("Feed %f en t = %f \n", F, t)
 
 if S <= 0; S = 0; end

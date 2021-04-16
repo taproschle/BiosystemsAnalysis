@@ -55,21 +55,24 @@ qSof    = pAmax*(qS/(qS+Kap));             % Check
 pA      = qSof*Yas;                        % Check
 qSox    = (qS-qSof)*(DOT/(DOT+Ko));        % Check      
 qSan    = (qSox-qm)*Yem*Cx/Cs;             % 
-qsA     = (qAmax./(1+(qS/Kis)))*(A/(A+Ksa));
+qsA     = (qAmax/(1+(qS/Kis)))*(A/(A+Ksa));
 qA      = pA-qsA;                            
 mu      = (qSox-qm)*Yem + qsA*Yxa + qSof*Yxsof;
 qO      = Yos*(qSox-qSan)+qsA*Yoa;
 Kp      = (1/tau)*3600;
 
-% Acá va el tema de los regimenes de alimentacion 
-if t < 11.44                    %batch phase
-    F = 0;                      %no feeding
-elseif t < 16.3                 %exponential fed-batch phase, non-production.
-    mu_set = 0.3;
-    F = mu_set/(Yxa*Si)*2*0.17*exp(mu_set*t);
-else           %constant feed fed-batch phase, protein induction
-    F = 0.0128;
-end
+% % Acá va el tema de los regimenes de alimentacion 
+% if t < 11.44                    %batch phase
+%     F = 0;                      %no feeding
+% elseif t < 16.3                 %exponential fed-batch phase, non-production.
+%     mu_set = 0.3;
+%     F = mu_set/(Yxa*Si)*2*0.17*exp(mu_set*t);
+% else           %constant feed fed-batch phase, protein induction
+%     F = 0.0128;
+% end
+
+F = mufeed/(Yxa*Si)*2*0.17*exp(mufeed*t);
+
 %% ODEs
 dydt = zeros(6,1);
 dydt(1,1) = F;                          %dV/dt
