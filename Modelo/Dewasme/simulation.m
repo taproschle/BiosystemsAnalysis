@@ -18,10 +18,12 @@ Sin     = 350;  %g/L
 
 u = [muset X0 Sin V0];
 
+options = odeset('NonNegative',[1, 2, 3, 4, 5, 6]);
+
 % Resolver Sistema
 
 tspan = [0 25]';
-[t,x] = ode15s(@(t,x) dewasme_model(t,x,u), tspan, x0);
+[t,x] = ode15s(@(t,x) dewasme_model(t,x,u), tspan, x0, options);
 
 X = x(:,1);
 S = x(:,2);
