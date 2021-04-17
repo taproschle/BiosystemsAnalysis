@@ -6,8 +6,6 @@ function dydt = fedbatch(t,x)
 global Yax YS_ox_X YS_of_X Yoa K_A C_X C_A C_S qm qO_max qAc_max qS_max mu_set Ysa Yso K_i_A K_S Vin Xin Sfeed
 dydt = [];
 
-
-
 % variables de estado
 S = x(1); % sustrato [ g/L]
 %disp(S)

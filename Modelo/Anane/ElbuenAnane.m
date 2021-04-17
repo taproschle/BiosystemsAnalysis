@@ -41,8 +41,8 @@ hold on
 plot(t1, y1(:, 3),'-b' , "LineWidth", 1.2)
 plot(t1, y1(:, 4),'-g' ,"LineWidth", 1.2)
 grid on
-legend("Biomass", "Sustrate", "Acetate", "LineWidth", 0.7, "location", "northwest")
-title("Evolution of the system for E.coli")
+legend("Biomass", "Substrate", "Acetate", "LineWidth", 0.7, "location", "northwest")
+title("Evolution of the system for E.coli (Anane Model)")
 xlabel("Time [h]")
 hold off 
 %% 

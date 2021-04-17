@@ -44,35 +44,35 @@ mu = (qSox - qm).*YS_ox_X + qSof.*YS_of_X + qAc.*Yax;
 % relacion rutas metabolicas
 
 
-%%
-figure(1)
-subplot(2,2,1)
-yyaxis left
-plot(T,C(:,1),'g',"LineWidth",2);
-ylim([0 15]);
-ylabel('Glucose [g/L]')
-yyaxis right
-plot(T,C(:,3),'r',"LineWidth",2);
-ylabel('Biomass [g/L]');
-legend('Glucose','Biomass');
-xlabel('Time [h]')
-
-subplot(2,2,2)
-plot(T,C(:,2),'k','LineWidth',2);
-legend('Acetate')
-xlabel('Time [h]')
-ylabel('Acetate [g/L]');
-
-subplot(2,2,3)
-plot(T,C(:,4),'g','LineWidth',2);
-legend('Volumen [L]')
-xlabel('Time [h]')
-ylabel('Volume [L]');
-
-subplot(2,2,4)
-plot(T,mu,'g','LineWidth',2)
-legend('mu [h-1]')
-xlabel('Time [h]')
-ylabel('Specific Growth [h-1]')
+% %
+% figure(1)
+% subplot(2,2,1)
+% yyaxis left
+% plot(T,C(:,1),'g',"LineWidth",2);
+% ylim([0 15]);
+% ylabel('Glucose [g/L]')
+% yyaxis right
+% plot(T,C(:,3),'r',"LineWidth",2);
+% ylabel('Biomass [g/L]');
+% legend('Glucose','Biomass');
+% xlabel('Time [h]')
+% 
+% subplot(2,2,2)
+% plot(T,C(:,2),'k','LineWidth',2);
+% legend('Acetate')
+% xlabel('Time [h]')
+% ylabel('Acetate [g/L]');
+% 
+% subplot(2,2,3)
+% plot(T,C(:,4),'g','LineWidth',2);
+% legend('Volumen [L]')
+% xlabel('Time [h]')
+% ylabel('Volume [L]');
+% 
+% subplot(2,2,4)
+% plot(T,mu,'g','LineWidth',2)
+% legend('mu [h-1]')
+% xlabel('Time [h]')
+% ylabel('Specific Growth [h-1]')
 
 
