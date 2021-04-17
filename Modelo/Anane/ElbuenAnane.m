@@ -17,7 +17,7 @@ Par = [0.5088	0.0128	0.0001	0.0381	1.2602	1.8383	0.2286	0.1148	0.0133	0.635	0.89
 % mufeed 0.18 optimo
 
 Si = 350;                        % concentration of glucose feed 300 g/L
-mufeed = 0.3;                    % set spec. growth rate during exp. feed
+mufeed = 0.2;                    % set spec. growth rate during exp. feed
 DOTstar = 99;                    % equil. DO concentration at operating pressure & temperature
 Kla = 220;
 tau = 35;                        % response time of DO probe
