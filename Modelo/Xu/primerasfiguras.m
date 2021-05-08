@@ -3,7 +3,7 @@ close all
 
 global O_sat klao2 K_O Yax YS_ox_X YS_of_X Yoa K_A C_X C_A C_S qm qO_max qAc_max qS_max mu_set Ysa Yso K_i_A K_S Xin Vin Sfeed
 
-O_sat = 0.035;
+O_sat = 850/1000;
 klao2 = 180;
 Yax = 0.667;
 YS_ox_X = 0.51;
@@ -23,13 +23,13 @@ qO_max = 13.4*32/1000; % g/ g h
 qAc_max = 0.2;
 qS_max = 1.25;
 
-mu_set = 0.2;
+mu_set = 0.4;
 
 Xin = 0.4;
 Vin = 6.8;
 Sfeed = 550;
 tspan = [0 24];
-x0 = [0.5 0 Xin Vin 0.035]; % S A X V O
+x0 = [0.5 0 Xin Vin 2/1000]; % S A X V O
 [T,C] = ode15s(@fedbatch, tspan, x0);
 
 %

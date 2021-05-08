@@ -11,12 +11,13 @@ S = x(1); % sustrato [ g/L]
 %disp(S)
 A = x(2); % acetato [g/L]
 X = x(3); % biomasa [g/L]
-V = x(4); % volumen hasta ah
-O = x(5); % oxigeno [g/L]
+V = x(4); % volumen  hasta ah
+O = x(5); % oxigeno disuelto [g/L]
 %ec constitutivas
 
 qS = (qS_max*S/(K_S + S))*1/(1+(A/K_i_A));
-% qOs = min((qS-(qS-qm)*YS_ox_X*C_X/C_S)*Yso , qO_max);
+% qOs = min((qS-(qS-qm)*YS_ox_X*C_X/C_S)*Yso , qO_max); 
+
 qOs = min(qO_max*Yso*(O/(K_O+O))*(1/(1+(A/K_i_A))),qO_max);
 qSox = ((qOs/Yso)-(qm*YS_ox_X*C_X/C_S))/(1-YS_ox_X*C_X/C_S);
 qSof = qS - qSox;
