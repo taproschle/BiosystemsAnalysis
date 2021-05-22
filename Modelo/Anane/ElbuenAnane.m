@@ -41,9 +41,15 @@ hold on
 plot(t1, y1(:, 3),'-b' , "LineWidth", 1.2)
 plot(t1, y1(:, 4),'-g' ,"LineWidth", 1.2)
 grid on
-legend("Biomass", "Substrate", "Acetate", "LineWidth", 0.7, "location", "northwest")
+legend("X", "S", "P", "LineWidth", 0.7, "location", "northwest")
 title("Evolution of the system for E.coli (Anane Model)")
 xlabel("Time [h]")
 hold off 
+% x0=10;
+% y0=10;
+% width=900;
+% height=600;
+% set(fig,'position',[x0,y0,width,height])
+
 %% 
 plot(t1, y1(:,5))

@@ -96,7 +96,7 @@ end
 legend('\mu = 0.25','\mu = 0.27','\mu = 0.29','\mu = 0.31','linewidth',1,'Location','northwest')
 title('Effect of \mu_{set} on Ethanol (Dewasme Model)')
 xlabel('Time [hr]')
-ylabel('Acetate [g/l]')
+ylabel('Ethanol [g/l]')
 grid on
 
 
