@@ -16,13 +16,17 @@ O = x(5); % oxigeno disuelto [g/L]
 %ec constitutivas
 
 qS = (qS_max*S/(K_S + S))*1/(1+(A/K_i_A));
-% qOs = min((qS-(qS-qm)*YS_ox_X*C_X/C_S)*Yso , qO_max); 
+%qOs = min((qS-(qS-qm)*YS_ox_X*C_X/C_S)*Yso , qO_max); 
 
-qOs = min(qO_max*Yso*(O/(K_O+O))*(1/(1+(A/K_i_A))),qO_max);
-qSox = ((qOs/Yso)-(qm*YS_ox_X*C_X/C_S))/(1-YS_ox_X*C_X/C_S);
-qSof = qS - qSox;
+%qOs = min(qO_max*(O/(K_O+O))*(1/(1+(A/K_i_A))),qO_max*(1/(1+(A/K_i_A))));
+qOs = min(qO_max*(O/(K_O+O))*(1/(1+(A/K_i_A))),qO_max);
+qSox = min(((qOs/Yso)-(qm*YS_ox_X*C_X/C_S))/(1-YS_ox_X*C_X/C_S),qS);
+%qSox = min(qOs/Yso,qS);
+%qSox = qOs/Yso;
+qSof = max(qS - qSox,0);
 qAp = (qSof - qSof*YS_of_X*C_X/C_S)*Ysa;
 qAc = min(qAc_max*A/(A+K_A) , (qO_max - qOs)*Yoa/(1-Yax*C_X/C_A));
+
 mu = (qSox - qm)*YS_ox_X + qSof*YS_of_X + qAc*Yax;
 qO = qOs + (qAc - qAc*Yax*C_X/C_A)*Yoa;
     

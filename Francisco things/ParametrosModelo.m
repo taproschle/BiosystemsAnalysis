@@ -1,7 +1,7 @@
 global  kx1 kx2 kx3 ks1 ks2 ke2 ke3 ko1 ko2 ko3 kc1 kc2 kc3 kos koe rs_max muo Ko  Ks  Ke  Kie  CO2s alfa beta gamma delta Henry Si P 
 Si  = 500;                           % Feed glucose concentration, [g/L], R1
 %                                         ==============  Open Loop
-mu_set = 0.135;               % specific grow rate [1/h]
+mu_set = 0.15;               % specific grow rate [1/h]
 P = 1;                                  % Pressure [atm]
 
 %  Yield coefficients original
