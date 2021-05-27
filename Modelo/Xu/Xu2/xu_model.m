@@ -19,11 +19,11 @@ K_O     = v(7);
 dydt = [];
 
 % variables de estado
-S = y(1); % sustrato [ g/L]
-A = y(2); % acetato [g/L]
-X = y(3); % biomasa [g/L]
-V = y(4); % volumen  hasta ah
-O = y(5); % oxigeno disuelto [g/L]
+X = y(1); % biomasa [ g/L]
+S = y(2); % glucosa [g/L]
+A = y(3); % acetato [g/L]
+O = y(4); % oxigeno disuelto [g/L]
+V = y(5); % volumen
 
 %ec constitutivas
 qS = (qS_max*S/(K_S + S))*1/(1+(A/K_i_A));
@@ -44,15 +44,16 @@ qO = qOs + (qAc - qAc*Yax*C_X/C_A)*Yoa;
 F = mu_set*Vin*Xin*exp(mu_set*t)/(YS_ox_X*Sfeed);
 
 % Ecuaciones diferenciales.
-dydt(1) =  (F/V)*(Sfeed-S)- qS*X ; %sustrato
+dydt(1) = (mu)*X - (F/V)*X; % biomass
+dydt(2) =  (F/V)*(Sfeed-S)- qS*X ; %sustrato
 %if t>=12 && t<=12.5
     %dydt(1) = -qS*X + 10;
 %end
-dydt(2) = (qAp-qAc)*X - (F/V)*A; % acetato
+dydt(3) = (qAp-qAc)*X - (F/V)*A; % acetato
 %dydt(2) = (mu)*X;
-dydt(3) = (mu)*X - (F/V)*X; % biomass
-dydt(4) = F; % volumen
-dydt(5) = klao2*(O_sat - O)-qO*X - (F/V)*O;
+dydt(4) = klao2*(O_sat - O)-qO*X - (F/V)*O;
+dydt(5) = F; % volumen
+
 dydt = dydt';
 
 end

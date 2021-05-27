@@ -47,24 +47,24 @@ fun = @(t,y) xu_model(t,y,v,k);
 figure(1)
 subplot(2,2,1)
 yyaxis left
-plot(T,C(:,1),'g',"LineWidth",2);
+plot(T,C(:,2),'g',"LineWidth",2);
 ylabel('Glucose [g/L]')
 yyaxis right
-plot(T,C(:,3),'r',"LineWidth",2);
+plot(T,C(:,1),'r',"LineWidth",2);
 ylabel('Biomass [g/L]');
 legend('Glucose','Biomass');
 xlabel('Time [h]')
 xlim([0 25])
 
 subplot(3,2,2)
-plot(T,C(:,2),'k','LineWidth',2);
+plot(T,C(:,3),'k','LineWidth',2);
 legend('Acetate')
 xlabel('Time [h]')
 ylabel('Acetate [g/L]');
 xlim([0 25])
 
 subplot(2,2,3)
-plot(T,C(:,4),'g','LineWidth',2);
+plot(T,C(:,5),'g','LineWidth',2);
 legend('Volumen [L]')
 xlabel('Time [h]')
 ylabel('Volume [L]');
@@ -72,7 +72,7 @@ xlim([0 25])
 
 
 subplot(2,2,4)
-plot(T,C(:,5),'g','LineWidth',2)
+plot(T,C(:,4),'g','LineWidth',2)
 legend('Oxygen [g/L]')
 xlabel('Time [h]')
 ylabel('Oxygen [g/L]')
