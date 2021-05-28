@@ -50,5 +50,4 @@ dydt(4) = klao2*(O_sat - O)-qO*X - (F/V)*O;
 dydt(5) = F; % volumen
 
 dydt = dydt';
-
 end

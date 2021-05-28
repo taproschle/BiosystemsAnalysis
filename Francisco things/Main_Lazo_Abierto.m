@@ -150,3 +150,8 @@ disp('indice_ISU')
 [k,l,indice_u2] = find(ISU,1,'last');
 disp (indice_u2)
 toc
+
+%% Salida de datos ruidosos:
+
+writematrix(data_noisy,'datos_troles.csv')
+

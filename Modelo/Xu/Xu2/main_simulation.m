@@ -1,7 +1,7 @@
 %% Xu Simulation
 clc; clear; close all;
 
-tsim = 25;
+tsim = 20;
 Ts = 1/60; %Tiempo de samplig 1[min]  = 1/60[h]
 
 % Estrategia de control 1) PI,  2) Antireset PID
@@ -70,58 +70,59 @@ plot(T,X,'r',"LineWidth",2)
 ylabel('Biomass [g/L]');
 legend('Glucose','Biomass','location','northwest');
 xlabel('Time [h]')
-xlim([0 25])
+xlim([0 tsim])
 
 subplot(2,2,2)
 plot(T,A,'k','LineWidth',2);
 legend('Acetate')
 xlabel('Time [h]')
 ylabel('Acetate [g/L]');
-xlim([0 25])
+xlim([0 tsim])
 
 subplot(2,2,3)
 plot(T,V,'g','LineWidth',2);
 legend('Volumen [L]','location','northwest')
 xlabel('Time [h]')
 ylabel('Volume [L]');
-xlim([0 25])
+xlim([0 tsim])
 
 subplot(2,2,4)
 plot(T,O,'g','LineWidth',2)
 legend('Oxygen [g/L]')
 xlabel('Time [h]')
 ylabel('Oxygen [g/L]')
-xlim([0 25])
+xlim([0 tsim])
 
 %% Inlet Plots
 figure(2);
 subplot(2,2,1)
 plot(T,F,'-k','linewidth',2)
-xlim([0 25])
+xlim([0 tsim])
 ylabel('F [l/hr]')
 xlabel('t [hr]')
 legend('Inlet Feed')
 
 subplot(2,2,2)
 plot(T,N,'-r','linewidth',2)
-xlim([0 25])
+xlim([0 tsim])
 ylabel('N [rpm]')
 xlabel('t [hr]')
 legend('Agitation rate')
 
 subplot(2,2,3)
 plot(T,G,'-g','linewidth',2)
-xlim([0 25])
+xlim([0 tsim])
 ylabel('G [l/min]')
 xlabel('t [hr]')
 legend('Inlet Air flow','location','southeast')
 
 subplot(2,2,4)
 plot(T,100*yO2,'-b','linewidth',2)
-xlim([0 25])
+xlim([0 tsim])
 ylabel('yO2')
 xlabel('t [hr]')
 legend('Inlet O_2 %','location','northwest')
+
 
 %%
 % ====================== Indices de control ====================
@@ -135,3 +136,51 @@ disp('indice_ISU')
 [k,l,indice_u2] = find(ISU,1,'last');
 disp (indice_u2)
 disp('======================================================')
+
+
+%% Extracción de datos ruidosos:
+
+noises = simulation.data_noisy;
+Tn = noises(:,1); Xn = noises(:,2); Sn = noises(:,3); 
+An = noises(:,4); On = noises(:,5); Vn = noises(:,6);
+
+
+figure(1)
+subplot(2,2,1)
+yyaxis left
+plot(Tn,Sn,'og',"LineWidth",1);
+ylabel('Glucose [g/L]')
+yyaxis right
+plot(Tn,Xn,'or',"LineWidth",1)
+ylabel('Biomass [g/L]');
+legend('Glucose','Biomass','location','northwest');
+xlabel('Time [h]')
+xlim([0 tsim])
+
+subplot(2,2,2)
+plot(Tn,An,'ok','LineWidth',1);
+legend('Acetate')
+xlabel('Time [h]')
+ylabel('Acetate [g/L]');
+xlim([0 tsim])
+
+subplot(2,2,3)
+plot(Tn,Vn,'og','LineWidth',1);
+legend('Volumen [L]','location','northwest')
+xlabel('Time [h]')
+ylabel('Volume [L]');
+xlim([0 tsim])
+
+subplot(2,2,4)
+plot(Tn,On,'og','LineWidth',1)
+legend('Oxygen [g/L]')
+xlabel('Time [h]')
+ylabel('Oxygen [g/L]')
+xlim([0 tsim])
+
+%writematrix(noises,'data_trol.csv') 
+
+
+
+
+
