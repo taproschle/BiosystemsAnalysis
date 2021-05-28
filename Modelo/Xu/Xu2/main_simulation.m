@@ -1,7 +1,6 @@
 %% Xu Simulation
-clc; clear;
+clc; clear; close all;
 
-% Parámetros de inicialización:
 tsim = 25;
 Ts = 1/60; %Tiempo de samplig 1[min]  = 1/60[h]
 
@@ -9,9 +8,11 @@ Ts = 1/60; %Tiempo de samplig 1[min]  = 1/60[h]
 Estrategia = 1;  
 PI_Kp = 1.87082881181595; PI_Ki = 1163.22932064265; PI_Kd = 0;
 PI_Kp_2 = 13.0; PI_Ki_2 = 0.06; PI_Kd_2 = 0;
+
 % % ============== Estrategia Rango dividido =========
 % Valores para el ruido 
-sigma_DO = 10^-8; sigma_RQ= 10^-4;
+sigma_DO = 0; % 10^-8; % Activar o desactivar ruido en el sensor
+sigma_RQ= 0; %10^-4;
 
 % ===================== Valores de upper y lower de N y G y control =======================
 
@@ -42,17 +43,23 @@ Henry = 26.409;
 O2s  = A_1_min/Henry;                
 spO2 = 0.3*O2s;
 
+% PARÁMETROS:
 
-%F = mu_set*Vin*Xin*exp(mu_set*t)/(YS_ox_X*Sfeed);
-mu_set = 0.29; Vin = 6.8; Xin = 0.4; YS_ox_X = 0.51; Sfeed = 550;
+mu_set = 0.31; 
+Vin = 6.8; Xin = 0.4; YS_ox_X = 0.51; Sfeed = 550;
 
+% SIMULACION
 simulation = sim('xu_sim');
 
 T = simulation.time;
 data = simulation.data;
+inlets = simulation.inlets;
+Indicadores = simulation.Indicadores;
+IAE = Indicadores(:,1); ISU = Indicadores(:,2);
+F = inlets(:,1); N = inlets(:,2); G = inlets(:,3); yO2 = inlets(:,4);
 X = data(:,1); S = data(:,2); A = data(:,3); O = data(:,4); V = data(:,5);
 
-% Gráfico:
+%% Gráfico:
 figure(1)
 subplot(2,2,1)
 yyaxis left
@@ -61,11 +68,11 @@ ylabel('Glucose [g/L]')
 yyaxis right
 plot(T,X,'r',"LineWidth",2)
 ylabel('Biomass [g/L]');
-legend('Glucose','Biomass');
+legend('Glucose','Biomass','location','northwest');
 xlabel('Time [h]')
 xlim([0 25])
 
-subplot(3,2,2)
+subplot(2,2,2)
 plot(T,A,'k','LineWidth',2);
 legend('Acetate')
 xlabel('Time [h]')
@@ -74,7 +81,7 @@ xlim([0 25])
 
 subplot(2,2,3)
 plot(T,V,'g','LineWidth',2);
-legend('Volumen [L]')
+legend('Volumen [L]','location','northwest')
 xlabel('Time [h]')
 ylabel('Volume [L]');
 xlim([0 25])
@@ -85,3 +92,46 @@ legend('Oxygen [g/L]')
 xlabel('Time [h]')
 ylabel('Oxygen [g/L]')
 xlim([0 25])
+
+%% Inlet Plots
+figure(2);
+subplot(2,2,1)
+plot(T,F,'-k','linewidth',2)
+xlim([0 25])
+ylabel('F [l/hr]')
+xlabel('t [hr]')
+legend('Inlet Feed')
+
+subplot(2,2,2)
+plot(T,N,'-r','linewidth',2)
+xlim([0 25])
+ylabel('N [rpm]')
+xlabel('t [hr]')
+legend('Agitation rate')
+
+subplot(2,2,3)
+plot(T,G,'-g','linewidth',2)
+xlim([0 25])
+ylabel('G [l/min]')
+xlabel('t [hr]')
+legend('Inlet Air flow','location','southeast')
+
+subplot(2,2,4)
+plot(T,100*yO2,'-b','linewidth',2)
+xlim([0 25])
+ylabel('yO2')
+xlabel('t [hr]')
+legend('Inlet O_2 %','location','northwest')
+
+%%
+% ====================== Indices de control ====================
+
+disp('========== Ïndices de control del lazo DO ===========')
+disp('indice_IAE')
+indice_e2 = sum(IAE);
+disp (indice_e2)
+
+disp('indice_ISU')
+[k,l,indice_u2] = find(ISU,1,'last');
+disp (indice_u2)
+disp('======================================================')

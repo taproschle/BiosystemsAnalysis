@@ -76,11 +76,7 @@ qAc_max = 0.2;
 qS_max = 1.25;
 
 % Parámetros no ajustables:
-%mu_set = 0.27;
-
-%Xin = 0.4; Sin = 0.5; Ain = 0; Oin = 2e-3; Vin = 6.8;
 Sfeed = 550;
-%O_sat = 0.035; %850/1000;
 K_O =  0.0001; % g o2 L-1
 P = 1;
 
@@ -93,20 +89,16 @@ beta = 1.33;                                % [1/h], R2
 gamma = 0.603;                       % [1/h], R2
 %delta = 0.89;                              % [-],   R3
 klao2 = 5*alfa*(N^beta)*(G^gamma); % Mass transfer coefficient for O2,[1/h]
-%klao2 = 180*100;
-
 
 % Constitutive equations
-qS = (qS_max*S/(K_S + S))*1/(1+(A/K_i_A));
-qOs = min(qO_max*(O/(K_O+O))*(1/(1+(A/K_i_A))),qO_max);
+qS   = (qS_max*S/(K_S + S))*1/(1+(A/K_i_A));
+qOs  = min(qO_max*(O/(K_O+O))*(1/(1+(A/K_i_A))),qO_max);
 qSox = min(((qOs/Yso)-(qm*YS_ox_X*C_X/C_S))/(1-YS_ox_X*C_X/C_S),qS);
 qSof = max(qS - qSox,0);
-qAp = (qSof - qSof*YS_of_X*C_X/C_S)*Ysa;
-qAc = min(qAc_max*A/(A+K_A) , (qO_max - qOs)*Yoa/(1-Yax*C_X/C_A));
-mu = (qSox - qm)*YS_ox_X + qSof*YS_of_X + qAc*Yax;
-qO = qOs + (qAc - qAc*Yax*C_X/C_A)*Yoa;
-
-%F = mu_set*Vin*Xin*exp(mu_set*t)/(YS_ox_X*Sfeed);
+qAp  = (qSof - qSof*YS_of_X*C_X/C_S)*Ysa;
+qAc  = min(qAc_max*A/(A+K_A) , (qO_max - qOs)*Yoa/(1-Yax*C_X/C_A));
+mu   = (qSox - qm)*YS_ox_X + qSof*YS_of_X + qAc*Yax;
+qO   = qOs + (qAc - qAc*Yax*C_X/C_A)*Yoa;
 
 % Ecuaciones diferenciales.
 
@@ -114,16 +106,13 @@ dXdt = (mu)*X - (F/V)*X; % biomass
 dSdt =  (F/V)*(Sfeed-S)- qS*X ; %sustrato
 dAdt = (qAp-qAc)*X - (F/V)*A; % acetato
 dOdt = klao2*(P*yo2/Henry - O)-qO*X - (F/V)*O;
-dVdt = F; % volumen
+dVdt = F; % Volume
+%dCdt = -klaco2*(CO2-CO2s) + rc*X - CO2*D;  % CO2 balance [g/L/h]
 
 sys = [dXdt dSdt dAdt dOdt dVdt];
-%sys = real(sys);
 end
 
-
-
 function sys=mdlOutputs(~,y,~)
-
 % Aqui se presenta el vector de salidas que tendra este macro, las cuales
 % se ordenan para facilitar la colocacion de los bloques:
 
@@ -133,8 +122,6 @@ A      = y(3);     %[g/L] Glicerol
 O      = y(4);     %[g/L] 1-3 Propanodiol
 V      = y(5);     %[g/L] Acido acetico
 
-
 sys = [X S A O V];
 sys(sys < 0) = 0;
-
 end
