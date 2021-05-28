@@ -21,8 +21,20 @@ y0 = [5 0.04 0 0.004 0.3];
 tspan = texp;
 fun = @(t,y) xu_model(t,y,v,k);
 options = odeset('RelTol',1e-5,'AbsTol',1e-5,'NonNegative',[1,2,3,4,5]);
-disp('Integrando')
-disp(randi(100))
+
+ran = randi(3);
+if ran == 1
+    points = ".";
+elseif ran == 2
+    points = "..";
+else
+    points = "...";
+end
+
+disp('Iterating'+" "+points)
+
+
+
 [~ , Y] = ode15s(fun,tspan,y0,options);
 
 pesos = [1 1 1 1 1];

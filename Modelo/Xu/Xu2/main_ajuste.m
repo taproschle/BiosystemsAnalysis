@@ -1,4 +1,5 @@
 %% Ajuste parámetros XU
+clc; clear; close all;
 tabla = readtable('datos_troles.csv');
 tabla = table2array(tabla);
 
@@ -22,12 +23,15 @@ problem.x_U = xU;
 problem.x_0 = x0;
 
 opts.maxeval = 100;
-opts.maxtime = 50;
+opts.maxtime = 1000;
 opts.iterprint = 1;
 
 opts.ndiverse = 100;
 opts.local.solver = 'fminsearch';
 opts.local.finish = 'solnp';
+
+id = 'MATLAB:ode15s:IntegrationTolNotMet';
+warning('off',id)
 
 Results = MEIGO(problem, opts, 'ESS');
 
@@ -98,6 +102,10 @@ legend('Oxygen [g/L]')
 xlabel('Time [h]')
 ylabel('Oxygen [g/L]')
 xlim([0 tsim])
+
+var = ["YS_ox_X" , "YS_of_X" , "Yax" , "Yoa" "Ysa" , "Yso", "C_X", ...
+"C_A", "C_S", "qm","qS_max", "qAc_max", "qO_max", "K_S", "K_i_A", "K_A"];
+tab = table(var',x0',k');
 
 %% Análisis de residuos
 % no funca
