@@ -28,7 +28,8 @@ ts = [0 0];
 x0 = C_iniciales;     % Initial conditions
 
 function sys = mdlDerivatives(~,x,u)
-global  kx1 kx2 kx3 ks1 ks2 ke2 ke3 ko1 ko2 ko3 kc1 kc2 kc3 kos koe rs_max muo Ko  Ks  Ke  Kie  CO2s alfa beta gamma delta Henry Si P
+global  kx1 kx2 kx3 ks1 ks2 ke2 ke3 ko1 ko2 ko3 kc1 kc2 kc3 kos koe ...
+        rs_max muo Ko  Ks  Ke  Kie  CO2s alfa beta gamma delta Henry Si P
 % State variables
 X   =  x(1);                     % Biomas,           [g/L]
 S   =  x(2);                     % Glucose,          [g/L]
