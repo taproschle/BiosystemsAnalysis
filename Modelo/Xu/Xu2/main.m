@@ -21,12 +21,11 @@ qAc_max = 0.2;
 qS_max = 1.25;
 
 % Parámetros no ajustables:
-mu_set = 0.29;
-klao2 = 180*10;
-Vin = 6.8;
-Xin = 0.4;
+mu_set = 0.27;
+klao2 = 180*100;
+Xin = 0.4; Sin = 0.5; Ain = 0; Oin = 2e-3; Vin = 6.8;
 Sfeed = 550;
-O_sat = 0.03; %850/1000;
+O_sat = 0.035; %850/1000;
 K_O =  0.0001; % g o2 L-1
 
 % Lista de parámetros ajustables entregados al modelo
@@ -39,7 +38,7 @@ v = [mu_set klao2 Vin Xin Sfeed O_sat K_O];
 % Resolución ODE:
 
 tspan = [0 25];
-x0 = [0.5 0 Xin Vin 2/1000]; % S A X V O
+x0 = [Xin Sin Ain Oin Vin];
 fun = @(t,y) xu_model(t,y,v,k);
 [T,C] = ode23s(fun, tspan, x0);
 

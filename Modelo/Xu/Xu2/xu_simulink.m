@@ -1,115 +1,140 @@
-function [sys, x0,str,ts] = Floripa004(t,x,u,flag)
-% Yeast Model from Dewasme et al, 2014.
-% Codified by Ricardo Pérez; 06/10/2017
-% Modified by Francisco Ibáñez 11/04/2020
-% Model parameters were obtained from the following references:
-
-%    R1: Dewasme, L., Coutinho, D., Vande Wouwer, A., Adaptive and Robust
-%        Linearizing Control Strategies for Fed-Batch Cultures of
-%        Microorganisms Exhibiting Overflow Metabolism, in J.A. Cetto
-%        et al. (Eds.): Informatics in Control, Automation and
-%        Robotics, LNEE 89, pp. 283–305, Springer-Verlag Berlin,
-%        Heidelberg 2011.
-%    R2: Cárcamo, M., Saa, P.A., Torres, J., Torres, S., Mandujano, P.,
-%        Correa, J.R.P., Agosin, E., 2014. Effective dissolved oxygen
-%        control strategy for high cell-density cultures.IEEE Lat. Am.
-%        Trans. 12, 389–394.
-%    R3: I. Rocha, Model-based strategies for computer-aided operation of
-%        recombinant E. coli fermentation, Ph.D. Thesis, Universidade do
-%        Minho, 2003.
-
+function [sys, x0,str,ts]=xu_simulink(t,x,u,flag)
+% Este conjunto de lineas de codigo NO se modifica.
 switch flag
    case 0
-   [sys,x0,str,ts] = mdlInitializeSizes;
-   case 1 
-   sys = mdlDerivatives(t,x,u);
+   [sys, x0,str,ts]=mdlInitializeSizes;
+   case 1
+   sys=mdlDerivatives(t,x,u);
    case 3
-   sys = mdlOutputs(t,x,u);
+   sys=mdlOutputs(t,x,u);
    case {2,4,9}
    sys=[];
    otherwise
-   error(['Unhandled flag = ',num2str(flag)]);
+     error(['Unhandled flag = ',num2str(flag)]);
+end
 end
 
-function [sys,x0,str,ts] = mdlInitializeSizes
+function [sys,x0,str,ts]=mdlInitializeSizes
+
+% Aqui se declara el numero de ecuaciones diferenciales a integrar, de va-
+% riables de entrada que ingresan al macro y de salidas que este tendra.
+
 sizes=simsizes;
-sizes.NumContStates  = 6;  % (biomass, glucose, ethanol, O2, CO2, volume) 
-sizes.NumDiscStates   = 0;  
-sizes.NumOutputs       = 9;  % (biomass, glucose, ethanol, O2, CO2, volume)
-sizes.NumInputs          = 4;  % (substrate flowrate, agitation speed, gas flowrate)
-sizes.DirFeedthrough = 0; 
-sizes.NumSampleTimes = 1; 
-sys = simsizes(sizes);
-str = []; 
-ts = [0 0];
-load 'CondicionesIniciales.mat '  C_iniciales
-x0 = C_iniciales;     % New initial conditions v2
+sizes.NumContStates  = 5;% Numero de ecuaciones diferenciales a integrar
+sizes.NumDiscStates  = 0;
+sizes.NumOutputs     = 5;% Numero de variables de salida que tendra el
+%                           macro.
+sizes.NumInputs      = 4; % Numero de variables de entrada que el macro
+%                           aceptara.
+sizes.DirFeedthrough = 0;
+sizes.NumSampleTimes = 1;
 
-function sys = mdlDerivatives(~,x,u)
-global  kx1 kx2 kx3 ks1 ks2 ke2 ke3 ko1 ko2 ko3 kc1 kc2 kc3 kos koe rs_max muo Ko  Ks  Ke  Kie  CO2s alfa beta gamma delta Henry Si P
-% State variables
-X   =  x(1);                               % Biomas,           [g/L]
-S   =  x(2);                               % Glucose,          [g/L]
-E   =  x(3);                               % Ethanol,          [g/L]
-O2  =  x(4);                             % Dissolved O2,     [g/L]
-CO2 =  x(5);                            % Dissolved CO2,    [g/L]
-V   =  x(6);                               % Volume,           [L]
+% A continuacion se presentan los valores iniciales que tendran los estados
+% (las ecuaciones diferenciales a ser resueltas). Se buscara su valor en
+% una primera etapa, para luego dejar fijas.
 
-% Input variables
-Fs  = u(1);                          % Feed rate,        [L/h]
+sys=simsizes(sizes); % Expresion que permite que el macro funcione bien. No
+% se debe borrar.
+
+Xin = 0.4; Sin = 0.5; Ain = 0; Oin = 2e-3; Vin = 6.8;
+x0 = [Xin Sin Ain Oin Vin];
+
+% Estas 2 lineas de codigo NO se tocan.
+str=[];
+ts=[0 0];
+end
+
+function sys=mdlDerivatives(~,y,u)
+
+% Entradas y Variables de Estado
+F   = u(1);         %[L/h]
 N   = u(2);                         % Agitation rate [rpm]
 G   = u(3);                          % Aire flow [LPM]
 yo2 = u(4);                        % Fraccion gaseosa de O2
 
-% =========================== Algebraic equations =========
+X       = y(1);         %[L]     Volumen fermentador
+S       = y(2);         %[g/L]   Biomasa
+A       = y(3);         %[g/L]   Glicerol
+O       = y(4);         %[g/L]   1,3-Propanodiol
+V       = y(5);         %[g/L]   Acido acetico
 
-% Mass transfer coefficient
+Yax = 0.667;
+YS_ox_X = 0.51;
+YS_of_X = 0.15;
+Yoa = 1.067;
+Ysa = 0.667; 
+Yso = 1.067;
+C_X = 0.04;
+C_A = 1/30;
+C_S = 1/30;
+K_A = 0.05;
+K_i_A = 5;
+K_S = 0.05;
+qm = 0.04;
+qO_max = 13.4*32/1000; % g/ g h
+qAc_max = 0.2;
+qS_max = 1.25;
+
+% Parámetros no ajustables:
+%mu_set = 0.27;
+
+%Xin = 0.4; Sin = 0.5; Ain = 0; Oin = 2e-3; Vin = 6.8;
+Sfeed = 550;
+%O_sat = 0.035; %850/1000;
+K_O =  0.0001; % g o2 L-1
+P = 1;
+
+% Oxygen:
+
+Henry =26.409;                   %  [(L*atm)/gO2] 
+% Control law
+alfa = 0.034;                              % [1/h], R2
+beta = 1.33;                                % [1/h], R2
+gamma = 0.603;                       % [1/h], R2
+%delta = 0.89;                              % [-],   R3
 klao2 = 5*alfa*(N^beta)*(G^gamma); % Mass transfer coefficient for O2,[1/h]
-klaco2 = delta*klao2;                                % Mass transfer coefficient for CO2, [1/h]
+%klao2 = 180*100;
 
-D = Fs/V;                                                                                   % Dilution rate,                     [1/h]
-rsu = rs_max*(S/(Ks+S));                                                     % Glucose unlimited rate, [g of S/g of X/h]
-rscrit = muo*(O2/(Ko+O2))*(Kie/(Kie+E))/kos;           % Critical glucose oxidation [g of S/g of X/h]
 
-% ============================ Restrictions 
-%                                              
-r1 = min(rsu,rscrit)/ks1;                                                      % Glucose oxidation rate,       [g of S/g of X/h]
-r2 = max(0,rsu-rscrit)/ks2;                                                % Glucose fermentation rate [g of S/g of X/h]
-r3 = max(0, kos*(rscrit-rsu)*(E/(E+Ke))/koe)/ke3;    % Ethanol oxidation rate        [g of E/g of X/h]  
+% Constitutive equations
+qS = (qS_max*S/(K_S + S))*1/(1+(A/K_i_A));
+qOs = min(qO_max*(O/(K_O+O))*(1/(1+(A/K_i_A))),qO_max);
+qSox = min(((qOs/Yso)-(qm*YS_ox_X*C_X/C_S))/(1-YS_ox_X*C_X/C_S),qS);
+qSof = max(qS - qSox,0);
+qAp = (qSof - qSof*YS_of_X*C_X/C_S)*Ysa;
+qAc = min(qAc_max*A/(A+K_A) , (qO_max - qOs)*Yoa/(1-Yax*C_X/C_A));
+mu = (qSox - qm)*YS_ox_X + qSof*YS_of_X + qAc*Yax;
+qO = qOs + (qAc - qAc*Yax*C_X/C_A)*Yoa;
 
-mu = (kx1*r1 + kx2*r2 + kx3*r3);              % Specific growth rate,                           [1/h]
-rs = (ks1*r1 + ks2*r2);                                   % Specific glucose consumption rate [1/h]
-ra = (ke2*r2 - ke3*r3);                                  % Specific ehtanol rate,                          [1/h]
-ro = (ko1*r1 + ko2*r2 + ko3*r3);               % Specific O2 consumption rate,         [1/h]
-rc = (kc1*r1 + kc2*r2 + kc3*r3);                  % Specific CO2 consumption rate,      [1/h]
+%F = mu_set*Vin*Xin*exp(mu_set*t)/(YS_ox_X*Sfeed);
 
-% ========================== Differential equations
-sys(1) = X*mu - X*D;                                                        % Biomass balance,           [g/L/h]
-sys(2) = Si*D - S*D - rs*X;                                               % Glucose balance,            [g/L/h]  
-sys(3) = X*ra - E*D;                                                          % Ethanol balance,            [g/L/h]
-sys(4) = klao2*(P*yo2/Henry-O2) - ro*X - O2*D;        % O2 balance,                      [g/L/h]
-sys(5) = -klaco2*(CO2-CO2s) + rc*X - CO2*D;           % CO2 balance,                   [g/L/h] 
-sys(6) = Fs;                                                                         % Total mass balance,      [L/h]
+% Ecuaciones diferenciales.
 
-function sys = mdlOutputs(~,x,~)
-global  kx1 kx2 kx3 ks1 ks2 ke3 kos koe rs_max muo Ko  Ks  Ke  Kie
+dXdt = (mu)*X - (F/V)*X; % biomass
+dSdt =  (F/V)*(Sfeed-S)- qS*X ; %sustrato
+dAdt = (qAp-qAc)*X - (F/V)*A; % acetato
+dOdt = klao2*(P*yo2/Henry - O)-qO*X - (F/V)*O;
+dVdt = F; % volumen
 
-% State variables
-%X   =  x(1);                            % Biomas,           [g/L]
-S   =  x(2);                                % Glucose,          [g/L]
-E   =  x(3);                                % Ethanol,          [g/L]
-O2  =  x(4);                              % Dissolved O2,     [g/L]
-%CO2 =  x(5);                         % Dissolved CO2,    [g/L]
-%V   =  x(6);                            % Volume,                 [L]
+sys = [dXdt dSdt dAdt dOdt dVdt];
+%sys = real(sys);
+end
 
- % Algebraic equations
-rsu = rs_max*(S/(Ks+S));                                                    % Glucose unlimited rate, [g of S/g of X/h]
-rscrit = muo*(O2/(Ko+O2))*(Kie/(Kie+E))/kos;          % Critical glucose oxidation  rate [g of S/g of X/h]
-% Restrictions
-r1 = min(rsu,rscrit)/ks1;                                                      % Glucose oxidation rate,    [g of S/g of X/h]
-r2 = max(0,rsu-rscrit)/ks2;                                                % Glucose fermentation rate, [g of S/g of X/h]
-r3 = max(0, kos*(rscrit-rsu)*(E/(E+Ke))/koe)/ke3;    % Ethanol oxidation rate [g of E/g of X/h]  
-mu   = (kx1*r1 + kx2*r2 + kx3*r3);                                  % Specific growth rate [1/h]
-Scrit = Ks * rscrit / ( rs_max - rscrit);                               % Critical substrate [g/L]
 
-sys = [x(1) x(2) x(3) x(4) x(5) x(6) mu rscrit*kx1 Scrit]; 
+
+function sys=mdlOutputs(~,y,~)
+
+% Aqui se presenta el vector de salidas que tendra este macro, las cuales
+% se ordenan para facilitar la colocacion de los bloques:
+
+X      = y(1);     %[L] Volumen
+S      = y(2);     %[g/L] Biomasa
+A      = y(3);     %[g/L] Glicerol
+O      = y(4);     %[g/L] 1-3 Propanodiol
+V      = y(5);     %[g/L] Acido acetico
+
+
+sys = [X S A O V];
+sys(sys < 0) = 0;
+
+end
