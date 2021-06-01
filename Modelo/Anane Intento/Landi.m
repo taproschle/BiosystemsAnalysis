@@ -19,7 +19,7 @@ G = x(2); %Glucose
 E = x(3); %Ethanol
 V = x(4); %Volume
 
-alpha = 0.5;
+alpha = 0.12;
 mu_set = alpha;
 
 X0 = 3.63;

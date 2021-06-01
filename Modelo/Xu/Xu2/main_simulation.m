@@ -11,8 +11,8 @@ PI_Kp_2 = 13.0; PI_Ki_2 = 0.06; PI_Kd_2 = 0;
 
 % % ============== Estrategia Rango dividido =========
 % Valores para el ruido 
-sigma_DO = 0; % 10^-8; % Activar o desactivar ruido en el sensor
-sigma_RQ= 0; %10^-4;
+sigma_DO =  10^-8; % Activar o desactivar ruido en el sensor
+sigma_RQ=   10^-4;
 
 % ===================== Valores de upper y lower de N y G y control =======================
 
@@ -49,7 +49,8 @@ mu_set = 0.31;
 Vin = 6.8; Xin = 0.4; YS_ox_X = 0.51; Sfeed = 550;
 
 % SIMULACION
-simulation = sim('xu_sim');
+%simulation = sim('xu_sim');
+simulation = sim('xu_sim_2019');
 
 T = simulation.time;
 data = simulation.data;
