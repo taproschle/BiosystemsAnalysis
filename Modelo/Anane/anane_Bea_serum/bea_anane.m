@@ -12,7 +12,8 @@ Fe0 = 0.145*60/1000;             %L/h; initial value of exponential feed.
       
         %[Kap     Ksa     Ko      Ks     Kia      Kis    pAmax   qAmax    qm     qSmax    Yas     Yoa     Yxa    Yem     Yos    Yxsof] 
 
-Par = [0.5088	0.0128	0.0001	0.0381	1.2602	1.8383	0.2286	0.1148	0.0133	0.635	0.8938	0.5221	0.5794	0.5321	1.5722	0.229];
+Par = [0.5088	0.0128	0.1	0.0381	1.2602	1.8383	0.2286	0.1148	0.0133	0.635	0.8938	0.5221	0.5794	0.5321	1.5722	0.229];
+
 
 % mufeed 0.18 optimo
 
