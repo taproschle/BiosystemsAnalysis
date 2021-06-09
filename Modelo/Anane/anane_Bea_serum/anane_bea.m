@@ -28,25 +28,25 @@ Si          = u(1);
 mufeed      = u(2);
 DOTstar     = u(3);     
 Kla         = u(4);
-tau         = u(5);
+Ko          = u(5); %affinity constant, oxygen consumption (molO./L)
+tau         = u(6);
 %% Parameters
 
 Kap     = Par(1);   %monod-type saturation constant, intracellular acetate production
 Ksa     = Par(2);   %affinity constant, acetate consumption (0.05 g/L)
-Ko      = Par(3);   %affinity constant, oxygen consumption (molO./L)
-Ks      = Par(4);   %affinity constant, substrate consumption (0.05 gglu./L)
-Kia     = Par(5);   %inhibition constant, inhib. of glucose uptake by acetate
-Kis     = Par(6);   %inhibition constant, inhib. of ace.uptake by glucose(4g/L)
-pAmax   = Par(7);   %max spec acetate production rate (0.15 g_ace/(gx.h)))
-qAmax   = Par(8);   %max spec acetate consumption rate (0.15 g_ace/(gx.h)))
-qm      = Par(9);   %spec maintenance coefficient (0.04 g_glu/(gx.h))
-qSmax   = Par(10);  %max spec glucose uptake rate (1.3 g_glu./gx.h)
-Yas     = Par(11);  %yield of acetate on substrate (g.ace/g.glu)
-Yoa     = Par(12);  %yield of oxygen on acetate g/g)
-Yxa     = Par(13);  %yield of biomass on acetate
-Yem     = Par(14);  %yield exclusive maintenance (Yem = Yxs-qm)
-Yos     = Par(15);  %yield of oxygen on glucose (g/g)
-Yxsof   = Par(16);  %biomass yield from the overflow route
+Ks      = Par(3);   %affinity constant, substrate consumption (0.05 gglu./L)
+Kia     = Par(4);   %inhibition constant, inhib. of glucose uptake by acetate
+Kis     = Par(5);   %inhibition constant, inhib. of ace.uptake by glucose(4g/L)
+pAmax   = Par(6);   %max spec acetate production rate (0.15 g_ace/(gx.h)))
+qAmax   = Par(7);   %max spec acetate consumption rate (0.15 g_ace/(gx.h)))
+qm      = Par(8);   %spec maintenance coefficient (0.04 g_glu/(gx.h))
+qSmax   = Par(9);  %max spec glucose uptake rate (1.3 g_glu./gx.h)
+Yas     = Par(10);  %yield of acetate on substrate (g.ace/g.glu)
+Yoa     = Par(11);  %yield of oxygen on acetate g/g)
+Yxa     = Par(12);  %yield of biomass on acetate
+Yem     = Par(13);  %yield exclusive maintenance (Yem = Yxs-qm)
+Yos     = Par(14);  %yield of oxygen on glucose (g/g)
+Yxsof   = Par(15);  %biomass yield from the overflow route
 
 %% Explicit algebraic equations (See text in paper for explanations)
 

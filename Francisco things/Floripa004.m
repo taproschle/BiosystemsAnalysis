@@ -46,7 +46,8 @@ load 'CondicionesIniciales.mat '  C_iniciales
 x0 = C_iniciales;     % New initial conditions v2
 
 function sys = mdlDerivatives(~,x,u)
-global  kx1 kx2 kx3 ks1 ks2 ke2 ke3 ko1 ko2 ko3 kc1 kc2 kc3 kos koe rs_max muo Ko  Ks  Ke  Kie  CO2s alfa beta gamma delta Henry Si P
+global  kx1 kx2 kx3 ks1 ks2 ke2 ke3 ko1 ko2 ko3 kc1 kc2 kc3 kos koe ...
+    rs_max muo Ko  Ks  Ke  Kie  CO2s alfa beta gamma delta Henry Si P
 % State variables
 X   =  x(1);                               % Biomas,           [g/L]
 S   =  x(2);                               % Glucose,          [g/L]
@@ -65,11 +66,11 @@ yo2 = u(4);                        % Fraccion gaseosa de O2
 
 % Mass transfer coefficient
 klao2 = 5*alfa*(N^beta)*(G^gamma); % Mass transfer coefficient for O2,[1/h]
-klaco2 = delta*klao2;                                % Mass transfer coefficient for CO2, [1/h]
+klaco2 = delta*klao2;              % Mass transfer coefficient for CO2, [1/h]
 
-D = Fs/V;                                                                                   % Dilution rate,                     [1/h]
-rsu = rs_max*(S/(Ks+S));                                                     % Glucose unlimited rate, [g of S/g of X/h]
-rscrit = muo*(O2/(Ko+O2))*(Kie/(Kie+E))/kos;           % Critical glucose oxidation [g of S/g of X/h]
+D = Fs/V;                                        % Dilution rate,                     [1/h]
+rsu = rs_max*(S/(Ks+S));                         % Glucose unlimited rate, [g of S/g of X/h]
+rscrit = muo*(O2/(Ko+O2))*(Kie/(Kie+E))/kos;     % Critical glucose oxidation [g of S/g of X/h]
 
 % ============================ Restrictions 
 %                                              

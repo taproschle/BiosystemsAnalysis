@@ -10,9 +10,21 @@ Fe0 = 0.145*60/1000;             %L/h; initial value of exponential feed.
 
 %Initial Parameter values (from literature)
       
-        %[Kap     Ksa     Ko      Ks     Kia      Kis    pAmax   qAmax    qm     qSmax    Yas     Yoa     Yxa    Yem     Yos    Yxsof] 
-
-Par = [0.5088	0.0128	0.1	0.0381	1.2602	1.8383	0.2286	0.1148	0.0133	0.635	0.8938	0.5221	0.5794	0.5321	1.5722	0.229];
+k   = [ 0.5088  % Kap
+        0.0128  % Ksa
+        0.0381  % Ks
+        1.2602  % Kia
+        1.8383  % Kis
+        0.2286  % pAmax
+        0.1148  % qAmax
+        0.0133  % qm
+        0.6350  % qSmax
+        0.8938  % Yas
+        0.5221  % Yoa
+        0.5794  % Yxa
+        0.5321  % Yem
+        1.5722  % Yos
+        0.229]; % Yxsof
 
 
 % mufeed 0.18 optimo
@@ -21,9 +33,10 @@ Si = 550;                        % concentration of glucose feed 300 g/L
 mufeed = 0.21;                    % set spec. growth rate during exp. feed
 DOTstar = 0.85;                    % equil. DO concentration at operating pressure & temperature
 Kla = 2200;
+Ko  = 0.1;
 tau = 35;                        % response time of DO probe
 
-u = [Si mufeed DOTstar Kla tau]; %inputs vector
+u = [Si mufeed DOTstar Kla Ko tau]; %inputs vector
 
 time_span = [0 35];
 
@@ -47,11 +60,3 @@ subplot(2,3,5)
 plot(t1,y1(:,5))
 legend('O2')
 
-
-% x0=10;
-% y0=10;
-% width=900;
-% height=600;
-% set(fig,'position',[x0,y0,width,height])
-
-%% 
