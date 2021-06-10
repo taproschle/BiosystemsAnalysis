@@ -32,10 +32,11 @@ Ysofx   = kof(5);
 Yoe     = kof(6);
 Yxe     = kof(7);
 qOmax   = kof(8);
+Kio     = kof(9);
 
 % Constitutive equations
 qS      = (qSmax*S/(Ks+S))*1/(1+(E/Kie));
-qOs     = min(qOmax*(O/(Ko+O))*(1/(1+(E/Kie))),qOmax);
+qOs     = min(qOmax*(O/(Ko+O))*(1/(1+(E/Kio))),qOmax);
 qSox    = min(((qOs/Yos)-(qm*Ysoxx))/(1-Ysoxx),qS);
 qSof    = max(qS-qSox,0);
 qEp     = (qSof-qSof*Ysofx)*Yes;
