@@ -12,7 +12,7 @@ x0      = [ 0.0500   % Ks
             0.5100   % Ysoxx
             0.0040   % qm
             1.0670]; % Yos
-        
+
 % MEIGO Settings
 problem.f = 'funObj';
 problem.x_L = 1e-6*ones(1,5);
@@ -49,17 +49,16 @@ Ko      = 0.0001;
 v       = [muset X0 V0 Sin klao2 osat Ko];
 
 % Adjusted parameters (overflow)
-Kie     = 1.2399;
-pEmax   = 0.2268;
-Kep     = 0.5052;
-Yes     = 0.9097;
-Kec     = 0.0134;
-qEmax   = 0.1148;
-Kis     = 2.1231;
-Ysofx   = 0.2268;
-Yoe     = 0.5440;
-Yxe     = 0.5718;
-kof     = [Kie pEmax Kep Yes Kec qEmax Kis Ysofx Yoe Yxe];
+Kie     = 5;
+Yes     = 0.667;
+Kec     = 0.05;
+qEmax   = 0.2;
+Ysofx   = 0.15;
+Yoe     = 1.067;
+Yxe     = 0.4;
+qOmax   = 0.43;
+Kio     = 4;
+kof     = [Kie Yes Kec qEmax Ysofx Yoe Yxe qOmax Kio];
 
 % Initial conditions
 S0 = 0.04;
@@ -71,6 +70,9 @@ tspan   = [0 tsim];
 fun = @(t,y) xu_unified(t,y,v,k,kof);
 options = odeset('RelTol',1e-5,'AbsTol',1e-5,'NonNegative',[1,2,3,4,5]);
 [T,C] = ode15s(fun,tspan,y0,options);
+tXu = T; cXu = C;
+Xudata = [tXu cXu];
+save('Xudata.mat','Xudata')
 
 c1 = "#1B9E77"; c2 = "#D95F02"; c3 = "#7570B3"; c4 = "#E7298A";
 c5 = "#66A61E"; c6 = "#E6AB02"; c7 = "#A6761D"; c8 = "#666666";

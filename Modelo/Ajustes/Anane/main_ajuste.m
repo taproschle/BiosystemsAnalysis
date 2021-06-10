@@ -71,6 +71,9 @@ tspan   = [0 tsim];
 fun = @(t,y) anane_unified(t,y,v,k,kof);
 options = odeset('RelTol',1e-5,'AbsTol',1e-5,'NonNegative',[1,2,3,4,5]);
 [T,C] = ode15s(fun,tspan,y0,options);
+tAn = T; cAn = C;
+Andata = [tAn cAn];
+save('Andata.mat','Andata')
 
 c1 = "#1B9E77"; c2 = "#D95F02"; c3 = "#7570B3"; c4 = "#E7298A";
 c5 = "#66A61E"; c6 = "#E6AB02"; c7 = "#A6761D"; c8 = "#666666";
