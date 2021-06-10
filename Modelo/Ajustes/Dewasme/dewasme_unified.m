@@ -1,4 +1,4 @@
-function dydt = dewasme_unified(t,y,v,k,kof)
+function dydt = dewasme_unified(t,y,v,k)
 
 % State variables
 X = y(1);   % Biomass (g/L)
@@ -21,16 +21,24 @@ Ks      = k(1);
 qSmax   = k(2);
 Ysoxx   = k(3);
 Yos     = k(4);
+Kie     = k(5);
+Yes     = k(6);
+Kec     = k(7);
+Ysofx   = k(8);
+Yoe     = k(9);
+Yxe     = k(10);
+qOmax   = k(11);
+Yosof   = k(12);
 
-% Adjusted parameters (overflow)
-Kie     = kof(1);
-Yes     = kof(2);
-Kec     = kof(3);
-Ysofx   = kof(4);
-Yoe     = kof(5);
-Yxe     = kof(6);
-qOmax   = kof(7);
-Yosof   = kof(8);
+% % Adjusted parameters (overflow)
+% Kie     = kof(1);
+% Yes     = kof(2);
+% Kec     = kof(3);
+% Ysofx   = kof(4);
+% Yoe     = kof(5);
+% Yxe     = kof(6);
+% qOmax   = kof(7);
+% Yosof   = kof(8);
 
 % Constitutive equations
 qS      = qSmax*S/(S+Ks);

@@ -1,4 +1,4 @@
-function dydt = xu_unified(t,y,v,k,kof)
+function dydt = xu_unified(t,y,v,k)
 
 % State variables
 X = y(1);   % Biomass (g/L)
@@ -15,6 +15,7 @@ Sin     = v(4);
 klao2   = v(5);
 osat    = v(6);
 Ko      = v(7);
+Kio     = v(8);
 
 % Adjusted parameters (all cases)
 Ks      = k(1);
@@ -22,17 +23,26 @@ qSmax   = k(2);
 Ysoxx   = k(3);
 qm      = k(4);
 Yos     = k(5);
+Kie     = k(6);
+Yes     = k(7);
+Kec     = k(8);
+qEmax   = k(9);
+Ysofx   = k(10);
+Yoe     = k(11);
+Yxe     = k(12);
+qOmax   = k(13);
 
-% Adjusted parameters (overflow)
-Kie     = kof(1);
-Yes     = kof(2);
-Kec     = kof(3);
-qEmax   = kof(4);
-Ysofx   = kof(5);
-Yoe     = kof(6);
-Yxe     = kof(7);
-qOmax   = kof(8);
-Kio     = kof(9);
+
+% % Adjusted parameters (overflow)
+% Kie     = kof(1);
+% Yes     = kof(2);
+% Kec     = kof(3);
+% qEmax   = kof(4);
+% Ysofx   = kof(5);
+% Yoe     = kof(6);
+% Yxe     = kof(7);
+% qOmax   = kof(8);
+% Kio     = kof(9);
 
 % Constitutive equations
 qS      = (qSmax*S/(Ks+S))*1/(1+(E/Kie));

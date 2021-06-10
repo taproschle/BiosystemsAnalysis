@@ -1,4 +1,4 @@
-function dydt = anane_unified(t,y,v,k,kof)
+function dydt = anane_unified(t,y,v,k)
 
 % State variables
 X = y(1);   % Biomass (g/L)
@@ -22,18 +22,28 @@ qSmax   = k(2);
 Ysoxx   = k(3);
 qm      = k(4);
 Yos     = k(5);
+Kie     = k(6);
+pEmax   = k(7);
+Kep     = k(8);
+Yes     = k(9);
+Kec     = k(10);
+qEmax   = k(11);
+Kis     = k(12);
+Ysofx   = k(13);
+Yoe     = k(14);
+Yxe     = k(15);
 
-% Adjusted parameters (overflow)
-Kie     = kof(1);
-pEmax   = kof(2);
-Kep     = kof(3);
-Yes     = kof(4);
-Kec     = kof(5);
-qEmax   = kof(6);
-Kis     = kof(6);
-Ysofx   = kof(7);
-Yoe     = kof(8);
-Yxe     = kof(9);
+% % Adjusted parameters (overflow)
+% Kie     = kof(1);
+% pEmax   = kof(2);
+% Kep     = kof(3);
+% Yes     = kof(4);
+% Kec     = kof(5);
+% qEmax   = kof(6);
+% Kis     = kof(6);
+% Ysofx   = kof(7);
+% Yoe     = kof(8);
+% Yxe     = kof(9);
 
 % Constitutive equations
 qS      = (qSmax/(1+(E/Kie)))*(S/(S+Ks));
