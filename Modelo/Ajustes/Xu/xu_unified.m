@@ -22,14 +22,14 @@ Ks      = k(1);
 qSmax   = k(2);
 Ysoxx   = k(3);
 qm      = k(4);
-Yos     = k(5);
+Yso     = k(5);
 Kie     = k(6);
-Yes     = k(7);
+Yse     = k(7);
 Kec     = k(8);
-qEmax   = k(9);
+qEcmax   = k(9);
 Ysofx   = k(10);
-Yoe     = k(11);
-Yxe     = k(12);
+Yeo     = k(11);
+Yex     = k(12);
 qOmax   = k(13);
 
 
@@ -47,12 +47,12 @@ qOmax   = k(13);
 % Constitutive equations
 qS      = (qSmax*S/(Ks+S))*1/(1+(E/Kie));
 qOs     = min(qOmax*(O/(Ko+O))*(1/(1+(E/Kio))),qOmax);
-qSox    = min(((qOs/Yos)-(qm*Ysoxx))/(1-Ysoxx),qS);
+qSox    = min(((qOs/Yso)-(qm*Ysoxx))/(1-Ysoxx),qS);
 qSof    = max(qS-qSox,0);
-qEp     = (qSof-qSof*Ysofx)*Yes;
-qEc     = min(qEmax*E/(E+Kec),(qOmax-qOs)*Yoe/(1-Yxe));
-mu      = (qSox-qm)*Ysoxx+qSof*Ysofx+qEc*Yxe;
-qO      = qOs+(qEc-qEc*Yxe)*Yoe;
+qEp     = (qSof-qSof*Ysofx)*Yse;
+qEc     = min(qEcmax*E/(E+Kec),(qOmax-qOs)*Yeo/(1-Yex));
+mu      = (qSox-qm)*Ysoxx+qSof*Ysofx+qEc*Yex;
+qO      = qOs+(qEc-qEc*Yex)*Yeo;
 F0      = muset*(X0*V0)/(Ysoxx*Sin);
 F       = F0*exp(muset*t);
 D       = F/V;

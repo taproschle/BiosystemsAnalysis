@@ -20,13 +20,13 @@ Ko      = v(7);
 Ks      = k(1);
 qSmax   = k(2);
 Ysoxx   = k(3);
-Yos     = k(4);
-Kie     = k(5);
-Yes     = k(6);
+Yso     = k(4);
+Kio     = k(5);
+Yse     = k(6);
 Kec     = k(7);
 Ysofx   = k(8);
-Yoe     = k(9);
-Yxe     = k(10);
+Yeo     = k(9);
+Yex     = k(10);
 qOmax   = k(11);
 Yosof   = k(12);
 
@@ -42,12 +42,12 @@ Yosof   = k(12);
 
 % Constitutive equations
 qS      = qSmax*S/(S+Ks);
-qO      = (qOmax*O/(O+Ko))*(Kie/(Kie+E));
-qScrit  = qO/Yos;
+qO      = (qOmax*O/(O+Ko))*(Kio/(Kio+E));
+qScrit  = qO/Yso;
 qSox    = min(qS,qScrit);
 qSof    = max(0,qS-qScrit);
-qE      = max(0,(Yos/Yoe)*(qScrit-qS)*(E/(E+Kec)));
-mu      = Ysoxx*qSox + Ysofx*qSof + Yxe*qE;
+qE      = max(0,(Yso/Yeo)*(qScrit-qS)*(E/(E+Kec)));
+mu      = Ysoxx*qSox + Ysofx*qSof + Yex*qE;
 F0      = muset*(X0*V0)/(Ysoxx*Sin);
 F       = F0*exp(muset*t);
 D       = F/V;
@@ -55,9 +55,9 @@ D       = F/V;
 % ODEs
 dydt(1) = X*(mu-D);                 % dXdt
 dydt(2) = D*(Sin-S)-(qSox-qSof)*X;  % dSdt
-dydt(3) = (Yes*qSof-qE)*X-D*E;      % dEdt
+dydt(3) = (Yse*qSof-qE)*X-D*E;      % dEdt
 dydt(4) = klao2*(osat-O)-D*O-...    % dOdt
-    (Yos*qSox+Yosof*qSof+Yoe*qE)*X;
+    (Yso*qSox+Yosof*qSof+Yeo*qE)*X;
 dydt(5) = F;                        % dVdt
 
 dydt = dydt';
