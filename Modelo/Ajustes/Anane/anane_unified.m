@@ -21,17 +21,17 @@ Ks      = k(1);
 qSmax   = k(2);
 Ysoxx   = k(3);
 qm      = k(4);
-Yos     = k(5);
+Yso     = k(5);
 Kie     = k(6);
-pEmax   = k(7);
+qEpmax   = k(7);
 Kep     = k(8);
-Yes     = k(9);
+Yse     = k(9);
 Kec     = k(10);
-qEmax   = k(11);
+qEcmax   = k(11);
 Kis     = k(12);
 Ysofx   = k(13);
-Yoe     = k(14);
-Yxe     = k(15);
+Yeo     = k(14);
+Yex     = k(15);
 
 % % Adjusted parameters (overflow)
 % Kie     = kof(1);
@@ -47,13 +47,13 @@ Yxe     = k(15);
 
 % Constitutive equations
 qS      = (qSmax/(1+(E/Kie)))*(S/(S+Ks));
-qSof    = pEmax*(qS/(qS+Kep));
-pE      = qSof*Yes;
+qSof    = qEpmax*(qS/(qS+Kep));
+qEp      = qSof*Yse;
 qSox    = (qS-qSof)*(O/(O+Ko));
-qsE     = (qEmax/(1+(qS/Kis)))*(E/(E+Kec));
-qE      = pE-qsE;
-mu      = (qSox-qm)*Ysoxx+qSof*Ysofx+qsE*Yxe;
-qO      = Yos*(qSox-qm)+qsE*Yoe;
+qEc     = (qEcmax/(1+(qS/Kis)))*(E/(E+Kec));
+qE      = qEp-qEc;
+mu      = (qSox-qm)*Ysoxx+qSof*Ysofx+qEc*Yex;
+qO      = Yso*(qSox-qm)+qEc*Yeo;
 F0      = muset*(X0*V0)/(Ysoxx*Sin);
 F       = F0*exp(muset*t);
 D       = F/V;
