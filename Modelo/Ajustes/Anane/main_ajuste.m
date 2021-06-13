@@ -58,6 +58,7 @@ klao2   = 180*100;
 osat    = 0.035;
 Ko      = 0.0001;
 v       = [muset X0 V0 Sin klao2 osat Ko];
+save('vAn.mat','v')
 
 % % Adjusted parameters (overflow)
 % Kie     = 1.2399;
