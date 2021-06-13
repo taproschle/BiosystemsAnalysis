@@ -49,6 +49,7 @@ params  = Results.xbest;
 k = params;
 save('kXu.mat','k');
 
+
 % Fixed parameters
 muset   = 0.11;
 X0      = 4.125;
@@ -59,6 +60,7 @@ osat    = 0.035;
 Ko      = 0.0001;
 Kio     = 4;
 v       = [muset X0 V0 Sin klao2 osat Ko Kio];
+save('vXu.mat','v');
 
 % Adjusted parameters (overflow)
 % Kie     = 5;

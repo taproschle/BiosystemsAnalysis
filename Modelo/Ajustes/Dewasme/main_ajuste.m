@@ -55,6 +55,7 @@ klao2   = 180*100;
 osat    = 0.035;
 Ko      = 0.0001;
 v       = [muset X0 V0 Sin klao2 osat Ko];
+save('vDew.mat','v')
 
 % % Adjusted parameters (overflow)
 % Kie     = 10.00;
