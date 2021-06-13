@@ -8,3 +8,6 @@ load 'simdata_an.mat' dataAn
 dataExp = table2array(readtable('data.csv'));
 
 % Dibuje
+
+%% 
+
