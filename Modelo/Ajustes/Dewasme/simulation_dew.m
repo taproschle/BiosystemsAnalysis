@@ -68,6 +68,10 @@ IAE = Indicadores(:,1); ISU = Indicadores(:,2);
 F = inlets(:,1); N = inlets(:,2); G = inlets(:,3); yO2 = inlets(:,4);
 X = data(:,1); S = data(:,2); A = data(:,3); O = data(:,4); V = data(:,5);
 
+dataDew = [T data];
+
+save('simdata_dew','dataDew')
+
 %% Gráfico:
 
 load data.csv

@@ -69,12 +69,7 @@ load vXu.mat v
 load kXu.mat k
 
 % Parámetros no ajustables:
-% muset   = v(1);
-% X0      = v(2);
-% V0      = v(3);
 Sin       = v(4);
-% klao2   = v(5);
-% osat    = v(6);
 Ko        = v(7);
 Kio       = v(8);
 
