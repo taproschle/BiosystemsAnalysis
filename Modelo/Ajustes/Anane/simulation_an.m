@@ -66,9 +66,10 @@ inlets = simulation.inlets;
 Indicadores = simulation.Indicadores;
 IAE = Indicadores(:,1); ISU = Indicadores(:,2);
 F = inlets(:,1); N = inlets(:,2); G = inlets(:,3); yO2 = inlets(:,4);
-X = data(:,1); S = data(:,2); A = data(:,3); O = data(:,4); V = data(:,5);
+X = data(:,1); S = data(:,2); A = data(:,3); O = data(:,4); 
+V = data(:,5); mu = data(:,6); mucrit = data(:,7); Scrit = data(:,8);
 
-dataAn = [T data];
+dataAn = [T data inlets];
 
 save('simdata_an','dataAn')
 
@@ -115,9 +116,16 @@ legend('Oxygen','Exp. Oxygen')
 xlabel('Time [h]')
 ylabel('Oxygen [g/L]')
 xlim([0 tsim])
+%% Growth plots
+figure(2);
+plot(T,mu,'-k','linewidth',2); hold on;
+plot(T,mucrit,'-r','linewidth',2); hold off;
+legend('\mu','\mu_{crit}'); grid on;
+xlabel('Time [h]')
+ylabel('Growth Constant [g/L]')
 
 %% Inlet Plots
-figure(2);
+figure(3);
 subplot(2,2,1)
 plot(T,F,'-k','linewidth',2)
 xlim([0 tsim])
