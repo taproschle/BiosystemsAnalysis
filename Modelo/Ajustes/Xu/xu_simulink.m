@@ -98,7 +98,7 @@ klao2 = 5*alfa*(N^beta)*(G^gamma); % Mass transfer coefficient for O2,[1/h]
 
 % Constitutive equations
 qS      = (qSmax*S/(Ks+S))*1/(1+(E/Kie));
-qOs     = min(qOmax*(O/(Ko+O))*(1/(1+(E/Kio))),qOmax);
+qOs     = qOmax*(O/(Ko+O))*(1/(1+(E/Kio)));
 qSox    = min(((qOs/Yso)-(qm*Ysoxx))/(1-Ysoxx),qS);
 qSof    = max(qS-qSox,0);
 qEp     = (qSof-qSof*Ysofx)*Yse;
@@ -139,7 +139,7 @@ Kio       = v(8);
 Ks      = k(1);
 qSmax   = k(2);
 Ysoxx   = k(3);
-qm      = 0.04; %k(4);
+qm      = k(4);
 Yso     = k(5);
 Kie     = k(6);
 Kec     = k(8);
@@ -147,11 +147,11 @@ qEcmax  = k(9);
 Ysofx   = k(10);
 Yeo     = k(11);
 Yex     = k(12);
-qOmax   = 0.3;  %k(13);
+qOmax   = k(13);
 
 % Constitutive equations
 qS      = (qSmax*S/(Ks+S))*1/(1+(E/Kie));
-qOs     = min(qOmax*(O/(Ko+O))*(1/(1+(E/Kio))),qOmax);
+qOs     = qOmax*(O/(Ko+O))*(1/(1+(E/Kio)));
 qSox    = min(((qOs/Yso)-(qm*Ysoxx))/(1-Ysoxx),qS);
 qSof    = max(qS-qSox,0);
 qEc     = min(qEcmax*E/(E+Kec),(qOmax-qOs)*Yeo/(1-Yex));

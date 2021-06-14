@@ -55,7 +55,7 @@ disp('Iterating'+" "+points)
 
 [~ , Y] = ode15s(fun,tspan,y0,options);
 
-wt = [1 10 10 1];
+wt = [1 10 1 1];
 
 if ~ isequal(size(Y(:,1:4)),size(yexp))
     n = 1e10*ones(1,4);

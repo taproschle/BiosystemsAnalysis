@@ -23,8 +23,8 @@ x0      = [ 0.0500   % Ks
 
 % MEIGO Settings
 problem.f = 'funObj';
-x_L = 1e-2*ones(1,13); x_U = 10*ones(1,13);
-x_U(3) = 0.8; x_U(12) = 0.8;
+x_L = [1e-2 1e-2 0.1 1e-4 1e-2 1 1e-2 1e-3 1e-2 1e-3 1e-3 1e-3 1e-3];
+x_U = [1 2 0.8 0.1 2 10 2 1 2 1 2 1 0.4];
 problem.x_L = x_L;
 problem.x_U = x_U;
 problem.x_0 = x0;

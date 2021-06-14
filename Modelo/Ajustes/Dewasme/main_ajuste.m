@@ -22,8 +22,21 @@ x0      = [ 0.1000   % Ks
                 
 % MEIGO Settings
 problem.f = 'funObj';
-problem.x_L = 1e-6*ones(1,12);
-problem.x_U = 10*ones(1,12);
+x_B = [ 1e-2, 1;    % Ks
+        1e-2, 4;    % qSmax
+        1e-2, 0.8;  % Ysoxx
+        1e-5, 0.5;  % Yos
+        1e-2, 10;   % Kie
+        1e-2, 1;    % Yes
+        1e-4, 1e-2; % Kec
+        1e-2, 0.5;  % Ysofx
+        1e-2, 2;    % Yoe
+        1e-2, 2;    % Yxe
+        1e-2, 1;    % qOmax
+        1e-4, 1e-1];% Yosof
+    
+problem.x_L = x_B(:,1);
+problem.x_U = x_B(:,2);
 problem.x_0 = x0;
 
 opts.maxeval = 1000;

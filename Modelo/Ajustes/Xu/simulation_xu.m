@@ -128,7 +128,7 @@ legend('Inlet Feed')
 subplot(2,2,2)
 plot(T,N,'-r','linewidth',2)
 xlim([0 tsim])
-ylabel('N [rpm]')
+ylabel('N [rpm]') 
 xlabel('t [hr]')
 legend('Agitation rate')
 

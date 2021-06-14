@@ -22,7 +22,7 @@ function [sys,x0,str,ts]=mdlInitializeSizes
 sizes=simsizes;
 sizes.NumContStates  = 5;% Numero de ecuaciones diferenciales a integrar
 sizes.NumDiscStates  = 0;
-sizes.NumOutputs     = 5;% Numero de variables de salida que tendra el
+sizes.NumOutputs     = 8;% Numero de variables de salida que tendra el
 %                           macro.
 sizes.NumInputs      = 4; % Numero de variables de entrada que el macro
 %                           aceptara.
@@ -127,6 +127,44 @@ E      = y(3);     %[g/L] Glicerol
 O      = y(4);     %[g/L] 1-3 Propanodiol
 V      = y(5);     %[g/L] Acido acetico
 
-sys = [X S E O V];
+load vAn.mat v
+load kAn.mat k
+
+% Parámetros no ajustables:
+% Sin     = v(4);
+Ko      = v(7);
+
+% Adjusted parameters (all cases)
+Ks      = k(1);
+qSmax   = k(2);
+Ysoxx   = k(3);
+qm      = k(4);
+Yso     = k(5);
+Kie     = k(6);
+qEpmax   = k(7);
+Kep     = k(8);
+% Yse     = k(9);
+Kec     = k(10);
+qEcmax   = k(11);
+Kis     = k(12);
+Ysofx   = k(13);
+Yeo     = k(14);
+Yex     = k(15);
+
+% Constitutive equations
+qS      = (qSmax/(1+(E/Kie)))*(S/(S+Ks));
+qSof    = qEpmax*(qS/(qS+Kep));
+% qEp      = qSof*Yse;
+qSox    = (qS-qSof)*(O/(O+Ko));
+qEc     = (qEcmax/(1+(qS/Kis)))*(E/(E+Kec));
+% qE      = qEp-qEc;
+mu      = (qSox-qm)*Ysoxx+qSof*Ysofx+qEc*Yex;
+qO      = Yso*(qSox-qm)+qEc*Yeo;
+% D       = F/V;
+qscrit  = qEpmax - Kep;
+mucrit  = qscrit*Ysoxx;
+scrit   = Ks*qO/(Yso*qSmax-qO);
+
+sys = [X S E O V mu mucrit scrit];
 sys(sys < 0) = 0;
 end
