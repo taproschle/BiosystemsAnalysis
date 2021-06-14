@@ -115,6 +115,10 @@ legend('Oxygen','Exp. Oxygen')
 xlabel('Time [h]')
 ylabel('Oxygen [g/L]')
 xlim([0 tsim])
+%% mu & Scrit plots
+
+
+
 
 %% Inlet Plots
 figure(2);

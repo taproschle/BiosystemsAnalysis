@@ -22,7 +22,7 @@ function [sys,x0,str,ts]=mdlInitializeSizes
 sizes=simsizes;
 sizes.NumContStates  = 5;% Numero de ecuaciones diferenciales a integrar
 sizes.NumDiscStates  = 0;
-sizes.NumOutputs     = 5;% Numero de variables de salida que tendra el
+sizes.NumOutputs     = 8;% Numero de variables de salida que tendra el
 %                           macro.
 sizes.NumInputs      = 4; % Numero de variables de entrada que el macro
 %                           aceptara.
@@ -112,7 +112,7 @@ dVdt = F; % Volume                 % dVdt
 
 sys = [dXdt dSdt dEdt dOdt dVdt];
 end
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function sys=mdlOutputs(~,y,~)
 % Aqui se presenta el vector de salidas que tendra este macro, las cuales
 % se ordenan para facilitar la colocacion de los bloques:
@@ -124,5 +124,37 @@ O      = y(4);     %[g/L] 1-3 Propanodiol
 V      = y(5);     %[g/L] Acido acetico
 
 sys = [X S E O V];
+sys(sys < 0) = 0;
+
+% Constitutive equations
+
+load vDew.mat v
+load kDew.mat k
+
+% Parámetros no ajustables:
+Ko      = v(7);
+Ks      = k(1);
+qSmax   = k(2);
+Ysoxx   = k(3);
+Yso     = k(4);
+Kio     = k(5);
+Kec     = k(7);
+Ysofx   = k(8);
+Yeo     = k(9);
+Yex     = k(10);
+qOmax   = 0.3; %k(11);
+
+% Constitutive equations:
+qS      = qSmax*S/(S+Ks);
+qO      = (qOmax*O/(O+Ko))*(Kio/(Kio+E));
+qScrit  = qO/Yso;
+qSox    = min(qS,qScrit);
+qSof    = max(0,qS-qScrit);
+qE      = max(0,(Yso/Yeo)*(qScrit-qS)*(E/(E+Kec)));
+mu      = Ysoxx*qSox + Ysofx*qSof + Yex*qE;
+mu_crit = qScrit*Ysoxx;
+Scrit   = Ks*qO/(Yso*qSmax - qO);
+
+sys = [sys mu mu_crit Scrit];
 sys(sys < 0) = 0;
 end
