@@ -22,7 +22,7 @@ function [sys,x0,str,ts]=mdlInitializeSizes
 sizes=simsizes;
 sizes.NumContStates  = 5;% Numero de ecuaciones diferenciales a integrar
 sizes.NumDiscStates  = 0;
-sizes.NumOutputs     = 8;% Numero de variables de salida que tendra el
+sizes.NumOutputs     = 9;% Numero de variables de salida que tendra el
 %                           macro.
 sizes.NumInputs      = 4; % Numero de variables de entrada que el macro
 %                           aceptara.
@@ -161,10 +161,11 @@ qEc     = (qEcmax/(1+(qS/Kis)))*(E/(E+Kec));
 mu      = (qSox-qm)*Ysoxx+qSof*Ysofx+qEc*Yex;
 qO      = Yso*(qSox-qm)+qEc*Yeo;
 % D       = F/V;
-qscrit  = qEpmax - Kep;
+% qscrit  = qEpmax - Kep;
+qscrit  = qS*O/(O+Ko);
 mucrit  = qscrit*Ysoxx;
 scrit   = Ks*qO/(Yso*qSmax-qO);
 
-sys = [X S E O V mu mucrit scrit];
+sys = [X S E O V mu mucrit scrit qEc];
 sys(sys < 0) = 0;
 end

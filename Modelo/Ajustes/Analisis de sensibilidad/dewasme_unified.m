@@ -1,5 +1,5 @@
 
-function dydt = dewasme_unified(t,y,v,k)
+function dydt = dewasme_unified(t,y,k)
 
 % State variables
 X = y(1);   % Biomass (g/L)
@@ -9,13 +9,14 @@ O = y(4);   % Dissolved Oxygen (g/L)
 V = y(5);   % Volume (L)
 
 % Fixed parameters
-muset   = v(1);
-X0      = v(2);
-V0      = v(3);
-Sin     = v(4);
-klao2   = v(5);
-osat    = v(6);
-Ko      = v(7);
+muset   = 0.11;
+X0      = 4.125;
+V0      = 0.3;
+Sin     = 450;
+klao2   = 180*100;
+osat    = 0.035;
+Ko      = 0.0001;
+
 
 % Adjusted parameters (all cases)
 Ks      = k(1);

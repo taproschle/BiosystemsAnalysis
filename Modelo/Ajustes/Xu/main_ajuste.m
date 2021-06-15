@@ -50,13 +50,19 @@ k = params;
 save('kXu.mat','k');
 
 
+
+% Initial conditions
+
+
+
+
 % Fixed parameters
 muset   = 0.11;
 X0      = 4.125;
 V0      = 0.3;
 Sin     = 450;
 klao2   = 180*100;
-osat    = 0.035;
+osat    = 0.008;
 Ko      = 0.0001;
 Kio     = 4;
 v       = [muset X0 V0 Sin klao2 osat Ko Kio];
