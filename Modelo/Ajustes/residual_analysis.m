@@ -1,6 +1,6 @@
-function out = residual_analysis(expdata, modeldata, num_param, show)
+function out = residual_analysis(expdata, modeldata, num_param, name, show)
 
-if nargin < 4; show = true; end
+if nargin < 5; show = true; end
 if nargin < 3; error('Insuficientes parametros'); end
 
 [NExp, nExp] = size(modeldata);
@@ -22,14 +22,14 @@ out.AICc   = out.AIC + 2*(num_param+1)*(num_param+2)/(NExp-num_param-2);
 out.BIC    = NExp*log(RSS/NExp) + num_param*log(NExp);
 
 if show == true
-   fprintf('Statisctic of the model\n')
+   fprintf('\nStatistics of the %s model\n', name)
    fprintf('Sum of Res  : %f \n', RSS)
-   fprintf('Nparameters : %d \n', num_param)
-   fprintf('Rsquared    : %f \n', out.RSq)
-   fprintf('Rsquared Adj: %f \n', out.RSqAdj)
    fprintf('AIC         : %f \n', out.AIC)
    fprintf('AICc        : %f \n', out.AICc)
+   fprintf('Nparameters : %d \n', num_param)
    fprintf('BIC         : %f \n', out.BIC)
+   fprintf('Rsquared    : %f \n', out.RSq)
+   fprintf('Rsquared Adj: %f \n', out.RSqAdj)
 end
 
 end

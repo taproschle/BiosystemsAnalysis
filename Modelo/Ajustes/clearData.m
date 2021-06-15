@@ -9,7 +9,7 @@ clean_data = zeros(N, ncol);
 for i = 1:N
     num = expData(i);
     [~, ind] = min(abs(modelTime - num));
-    clean_data(i,:) = modelData(ind,:);
+    clean_data(i,:) = modelData(ind,1:ncol); %Cambiado 
 end
 
 end
