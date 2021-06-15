@@ -13,7 +13,5 @@ m     = length(k2);
 [N,~] = size(res);
 AIC   = N*log(SS/N)+2*(m+1);
 AICc  = AIC + 2*(m+1)*(m+2)/(N-m-2);
-Rsquared = 
-Radj  = 
 
 end

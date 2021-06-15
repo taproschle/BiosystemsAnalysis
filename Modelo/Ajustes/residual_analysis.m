@@ -20,6 +20,7 @@ out.RSqAdj = 1 - RSS/TSS*(NExp - num_param - 1)/(NExp - 1);
 out.AIC    = NExp*log(RSS/NExp)+2*(num_param+1);
 out.AICc   = out.AIC + 2*(num_param+1)*(num_param+2)/(NExp-num_param-2);
 out.BIC    = NExp*log(RSS/NExp) + num_param*log(NExp);
+out.res    = expdata - modeldata;
 
 if show == true
    fprintf('\nStatistics of the %s model\n', name)
