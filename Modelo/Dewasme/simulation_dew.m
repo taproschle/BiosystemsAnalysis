@@ -1,4 +1,4 @@
-%% Xu Simulation
+%% Dewasme Simulation
 clc; clear; close all;
 
 tsim = 40;
@@ -47,6 +47,21 @@ spO2 = 0.3*O2s;
 load kDew.mat k
 load vDew.mat v
 
+% Ajustables
+Ks      = k(1);
+qSmax   = k(2);
+Ysoxx   = k(3);
+Yso     = k(4);
+Kio     = k(5);
+Yse     = k(6);
+Kec     = k(7);
+Ysofx   = k(8);
+Yeo     = k(9);
+Yex     = k(10);
+qOmax   = k(11);
+Yosof   = k(12);
+
+% Fijos
 mu_set  = v(1);
 Xin     = v(2);
 Vin     = v(3);
@@ -54,8 +69,9 @@ Sfeed   = v(4);
 klao2   = v(5);
 osat    = v(6);
 Ko      = v(7);
-Ysoxx   = k(3);
 
+load data.csv
+%%
 % SIMULACION
 
 simulation = sim('dew_sim');

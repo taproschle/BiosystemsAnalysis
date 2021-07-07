@@ -24,7 +24,7 @@ sizes.NumContStates  = 5;% Numero de ecuaciones diferenciales a integrar
 sizes.NumDiscStates  = 0;
 sizes.NumOutputs     = 8;% Numero de variables de salida que tendra el
 %                           macro.
-sizes.NumInputs      = 4; % Numero de variables de entrada que el macro
+sizes.NumInputs      = 16; % Numero de variables de entrada que el macro
 %                           aceptara.
 sizes.DirFeedthrough = 0;
 sizes.NumSampleTimes = 1;
@@ -55,6 +55,19 @@ F   = u(1);         %[L/h]
 N   = u(2);                         % Agitation rate [rpm]
 G   = u(3);                          % Aire flow [LPM]
 yo2 = u(4);                        % Fraccion gaseosa de O2
+% Parámetros 
+Ks      = u(5);
+qSmax   = u(6);
+Ysoxx   = u(7);
+Yso     = u(8);
+Kio     = u(9);
+Yse     = u(10);
+Kec     = u(11);
+Ysofx   = u(12);
+Yeo     = u(13);
+Yex     = u(14);
+qOmax   = u(15);
+Yosof   = u(16);
 
 X       = y(1);         %[L]     Volumen fermentador
 S       = y(2);         %[g/L]   Biomasa
@@ -68,19 +81,6 @@ load kDew.mat k
 % Parámetros no ajustables:
 Sin     = v(4);
 Ko      = v(7);
-
-Ks      = k(1);
-qSmax   = k(2);
-Ysoxx   = k(3);
-Yso     = k(4);
-Kio     = k(5);
-Yse     = k(6);
-Kec     = k(7);
-Ysofx   = k(8);
-Yeo     = k(9);
-Yex     = k(10);
-qOmax   = k(11);
-Yosof   = k(12);
 
 P = 1;
 Henry =26.409;                   %  [(L*atm)/gO2] 

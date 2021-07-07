@@ -31,16 +31,6 @@ Yex     = k(10);
 qOmax   = k(11);
 Yosof   = k(12);
 
-% % Adjusted parameters (overflow)
-% Kie     = kof(1);
-% Yes     = kof(2);
-% Kec     = kof(3);
-% Ysofx   = kof(4);
-% Yoe     = kof(5);
-% Yxe     = kof(6);
-% qOmax   = kof(7);
-% Yosof   = kof(8);
-
 % Constitutive equations
 qS      = qSmax*S/(S+Ks);
 qO      = (qOmax*O/(O+Ko))*(Kio/(Kio+E));
