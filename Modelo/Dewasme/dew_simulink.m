@@ -129,20 +129,20 @@ sys(sys < 0) = 0;
 % Constitutive equations
 
 load vDew.mat v
-load kDew.mat k
+% load kDew.mat k
 
 % Parámetros no ajustables:
 Ko      = v(7);
-Ks      = k(1);
-qSmax   = k(2);
-Ysoxx   = k(3);
-Yso     = k(4);
-Kio     = k(5);
-Kec     = k(7);
-Ysofx   = k(8);
-Yeo     = k(9);
-Yex     = k(10);
-qOmax   = 0.3; %k(11);
+Ks      = 0.155434749;
+qSmax   = 4.39560768;
+Ysoxx   = 0.325626329;
+Yso     = 0.309409692;
+Kio     = 5.2044717434937;
+Kec     = 0.005523424;
+Ysofx   = 0.317896552;
+Yeo     = 2.180279923;
+Yex     = 1.928401808;
+qOmax   = 0.384622039;
 
 % Constitutive equations:
 qS      = qSmax*S/(S+Ks);

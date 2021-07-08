@@ -44,35 +44,58 @@ O2s  = A_1_min/Henry;
 spO2 = 0.3*O2s;
 
 % PARÁMETROS:
-load kDew.mat k
+% load kDew.mat k
 load vDew.mat v
 
 % Ajustables
-Ks      = k(1);
-qSmax   = k(2);
-Ysoxx   = k(3);
-Yso     = k(4);
-Kio     = k(5);
-Yse     = k(6);
-Kec     = k(7);
-Ysofx   = k(8);
-Yeo     = k(9);
-Yex     = k(10);
-qOmax   = k(11);
-Yosof   = k(12);
+% Ks      = k(1);
+% qSmax   = k(2);
+% Ysoxx   = k(3);
+% Yso     = k(4);
+% Kio     = k(5);
+% Yse     = k(6);
+% Kec     = k(7);
+% Ysofx   = k(8);
+% Yeo     = k(9);
+% Yex     = k(10);
+% qOmax   = k(11);
+% Yosof   = k(12);
 
-% Fijos
-mu_set  = v(1);
-Xin     = v(2);
-Vin     = v(3);
-Sfeed   = v(4);
-klao2   = v(5);
-osat    = v(6);
-Ko      = v(7);
+% Fijos (Cambiar dependiendo el ajuste)
+mu_set  = 0.16;
+Xin     = 4.21;
+Vin     = 1.5;
+Sfeed   = 450;
+Ko      = 0.0001;
 
-load data.csv
-%%
-% SIMULACION
+% Seleccionar que datos cargar
+% load data_ox.csv
+load data_of.csv
+t = data_of(:,1);
+X = data_of(:,2);
+S = data_of(:,3);
+E = data_of(:,4);
+O = data_of(:,5);
+
+% Correr hasta aquí para hacer el análisis de sensibilidad y ajuste en
+%  simulink
+
+% En base a lo realizado por la sesión de ajuste en simulink
+% Ajuste con regimen oxidativo
+Ks      = 0.155434749;
+qSmax   = 4.39560768;
+Ysoxx   = 0.325626329;
+Yso     = 0.309409692;
+Kio     = 5.2044717434937;
+Yse     = 1.030307418;
+Kec     = 0.005523424;
+Ysofx   = 0.317896552;
+Yeo     = 2.180279923;
+Yex     = 1.928401808;
+qOmax   = 0.384622039;
+Yosof   = 0.00011;
+
+%% SIMULACION
 
 simulation = sim('dew_sim');
 
@@ -91,10 +114,10 @@ save('simdata_dew','dataDew')
 
 %% Gráfico:
 
-load data.csv
+load data_ox.csv
 
-texp    = data(:,1)';
-yexp    = data(:,2:5);
+texp    = data_ox(:,1)';
+yexp    = data_ox(:,2:5);
 
 figure(1)
 subplot(2,2,1)
@@ -113,9 +136,9 @@ xlim([0 tsim])
 subplot(2,2,2)
 plot(T,A,'k','LineWidth',2); hold on;
 plot(texp,yexp(:,3),'ok','linewidth',1); hold off
-legend('Acetate','Exp. Acetate')
+legend('Ethanol','Exp. Ethanol')
 xlabel('Time [h]')
-ylabel('Acetate [g/L]');
+ylabel('Ethanol [g/L]');
 xlim([0 tsim])
 
 subplot(2,2,3)
