@@ -40,12 +40,12 @@ disp('Iterating'+" "+points)
 %Construction of residual matrix:
 %Calculation of the objective function:
 
-if ~ isequal(size(X(:,1:4)),size(ydata))
+if ~ isequal(size(X(:,1:3)),size(ydata))
     J = 1e20;
     R = 1e10*ones(60,1);
 else
     R =[(ydata(:,1)-X(:,1))./max(ydata(:,1)) (ydata(:,2)-X(:,2))./max(ydata(:,2)) ...
-        (ydata(:,3)-X(:,3))./max(ydata(:,3)) (ydata(:,4)-X(:,4))./max(ydata(:,4))];
+        (ydata(:,3)-X(:,3))./max(ydata(:,3))];
     J = sum(sum(R.^2));
     g = 0;
     R=reshape(R,numel(R),1);

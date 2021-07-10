@@ -26,6 +26,7 @@ X = x(1);   % Biomass (g/L)
 S = x(2);   % Substrate (g/L)
 E = x(3);   % Ethanol (g/L)
 O = x(4);   % Dissolved Oxygen (g/L)
+V = x(5);   % Volume (L)
 
 
 % Fixed parameters
@@ -36,56 +37,30 @@ Sin     = 450;
 klao2   = 180*100;
 osat    = 0.035;
 Ko      = 0.0001;
-V  = V0;
 
-% Adjusted parameters (all cases)
-% Ks      = k(1);
-qSmax   = k(1);
-Ysoxx   = k(2);
-% Yso     = k(4);
-% Kio     = k(5);
-% Yse     = k(6);
-Kec     = k(3);
-% Ysofx   = k(8);
-% Yeo     = k(9);
-Yex     = k(4);
-qOmax   = k(5);
-% Yosof   = k(12);
-% Ysofx = k(7); 
-% Yse = k(8);
+% Adjusted parameters
+qSmax   = p(1);
+Ysoxx   = p(2);
+Kec     = p(3);
+Yex     = p(4);
+qOmax   = p(5);
 
 % FIXED
 
-% Kec     = 0.0051;
 Yeo     = 1.998;
-% Yex     = 1.7531;
-% qOmax   = 0.3497;
 Yosof   = 0.0001;
 Yso     = 0.3438;
 Kio     = 4.7323;
 Ks      = 0.1414;
-Yse = 0.9634;
-Ysofx = 0.3294; 
-% % Adjusted parameters (overflow)
-% Kie     = kof(1);
-% Yes     = kof(2);
-% Kec     = kof(3);
-% Ysofx   = kof(4);
-% Yoe     = kof(5);
-% Yxe     = kof(6);
-% qOmax   = kof(7);
-% Yosof   = kof(8);
-a = 100;
+Yse     = 0.9634;
+Ysofx   = 0.3294; 
+
 % Constitutive equations
 qS      = qSmax*S/(S+Ks);
 qO      = (qOmax*O/(O+Ko))*(Kio/(Kio+E));
 qScrit  = qO/Yso;
 qSox    = min(qS,qScrit);
-% qSox    = (qS*exp(-a*qS)+qScrit*exp(-a*qScrit))/(exp(-a*qS)+exp(-a*qScrit));
 qSof    = max(0,qS-qScrit);
-% qSof    = (0*exp(a*0)+(qS-qScrit)*exp(a*(qS-qScrit)))/(exp(a*0)+exp(a*(qS-qScrit)));
-% qec     = (Yso/Yeo)*(qScrit-qS)*(E/(E+Kec));
-% qE      = (0*exp(a*0)+qec*exp(a*qec))/(exp(a*0)+exp(a*qec));
 qE      = max(0,(Yso/Yeo)*(qScrit-qS)*(E/(E+Kec)));
 mu      = Ysoxx*qSox + Ysofx*qSof + Yex*qE;
 F0      = muset*(X0*V0)/(Ysoxx*Sin);
@@ -96,7 +71,9 @@ D       = F/V;
 dxdt(1) = X*(mu-D);                 % dXdt
 dxdt(2) = D*(Sin-S)-(qSox-qSof)*X;  % dSdt
 dxdt(3) = (Yse*qSof-qE)*X-D*E;      % dEdt
-dxdt(4) = klao2*(osat-O)-D*O - (Yso*qSox+Yosof*qSof+Yeo*qE)*X; % dOdt
+dxdt(4) = klao2*(osat-O)-D*O - ...
+    (Yso*qSox+Yosof*qSof+Yeo*qE)*X; % dOdt
+dxdt(5) = F;                        % dVdt
                  
 
 dxdt = dxdt';

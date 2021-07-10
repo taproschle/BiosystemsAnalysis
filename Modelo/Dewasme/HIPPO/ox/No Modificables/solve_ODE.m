@@ -13,20 +13,28 @@ solver  = evalin('base','solver_ODE');
 options = evalin('base','opts_ODE');
 
 % Integration of ODEs:
+% Modificación para que tome en cuenta solamente X S E
 if strcmp(solver,'ode23')
     [tmod,xmod] = ode23(@model,texp,x0,options,k);
+    xmod = xmod(:,1:3);
 elseif strcmp(solver,'ode45')
     [tmod,xmod] = ode45(@model,texp,x0,options,k);
+    xmod = xmod(:,1:3);
 elseif strcmp(solver,'ode113')
     [tmod,xmod] = ode113(@model,texp,x0,options,k);
+    xmod = xmod(:,1:3);
 elseif strcmp(solver,'ode15s')
     [tmod,xmod] = ode15s(@model,texp,x0,options,k);
+    xmod = xmod(:,1:3);
 elseif strcmp(solver,'ode23s')
     [tmod,xmod] = ode23s(@model,texp,x0,options,k);
+    xmod = xmod(:,1:3);
 elseif strcmp(solver,'ode23t')
     [tmod,xmod] = ode23t(@model,texp,x0,options,k);
+    xmod = xmod(:,1:3);
 elseif strcmp(solver,'ode23tb')
     [tmod,xmod] = ode23tb(@model,texp,x0,options,k);
+    xmod = xmod(:,1:3);
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

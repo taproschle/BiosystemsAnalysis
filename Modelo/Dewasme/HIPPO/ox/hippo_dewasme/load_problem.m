@@ -23,10 +23,10 @@ function [kL,k0,kU,opts_SSm,texp,ydata,x0,solver_ODE,opts_ODE,T,U] =...
 
 %Lower, initial and upper values for each parameter in SSm:%
 
-%  P = [ p1 p2    p3    p4    p5 p6 p7 p8 p9 p10 p11 p12 p13 ]
-kL   = [0.1 0.1 0 0.1 0.1];
-k0   = [3.9960 0.296 0.0051 1.7531 0.3497 ];
-kU   = [5 1 0.1 5 1];
+%  P = [ qSmax  Ysoxx    Kec    Yex  qOmax]
+kL   = [    0.1   0.1      0    0.1    0.1];
+k0   = [ 3.9960 0.296 0.0051 1.7531 0.3497];
+kU   = [      5     1    0.1      5      1];
 
 %SSm options:
 opts_SSm.maxeval      = 1000;
@@ -38,19 +38,19 @@ opts_SSm.local.finish = 'fminsearch';
 opts_SSm.combination  = 1;  
 
 %Experimental Data:
-% [Time X S P]
+% [t X S E O]
 data  = table2array(readtable('data.csv')); %edit here
-data = data(2:length(data),1:5);
+data = data(2:length(data),1:4);
 [~,n] = size(data); 
 texp  = data(:,1)';
 ydata = data(:,2:n);
 
 %Initial conditions for integration:
-%      X S E O 
-x0 = [4.13 0.001 4.1 0.0024]; 
+%        X     S   E      O    V 
+x0 = [4.13 0.001 4.1 0.0024  0.3]; 
 
-%ODE options:
-solver_ODE = 'ode23';
+% ODE options:
+solver_ODE = 'ode15s';
 opts_ODE   = odeset('RelTol',1e-4,'AbsTol',1e-7);
 
 %Threshold for correlations (any couple of parameters with a correlation
