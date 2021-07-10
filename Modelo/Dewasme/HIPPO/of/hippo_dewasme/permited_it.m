@@ -22,7 +22,7 @@
 function answer = permited_it(it,last_results)
 
 %Ignore solutions with unexpected sensitivity outputs:
-if max(max(last_results.Ms)) >= 4
+if max(max(last_results.Ms)) >= 5
     answer = false;
        
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

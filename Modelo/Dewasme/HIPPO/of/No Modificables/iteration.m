@@ -56,7 +56,6 @@ while ~solucion_converge
     end
 end
 
-
 % Results=ssm_kernel(problem,opts,texp,ydata);
 Results=ess_kernel(problem,opts,texp,ydata);
 %============================= RESULTS ================================
@@ -65,8 +64,7 @@ k_SSm    = Results.xbest;
 CPU_time = Results.cpu_time;
 
 [J_SSm,~,~] = obj_func(k_SSm,texp,ydata);
-%% edito dani
-% plotResults(k_SSm,texp,ydata); aqui
+
 %%
 %========================= REGRESSION ANALYSIS ========================
 
