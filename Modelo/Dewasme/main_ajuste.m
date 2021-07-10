@@ -3,37 +3,20 @@ clear ; clc ; close all
 load data.csv
 
 texp    = data(:,1)';
-yexp    = data(:,2:5);
+yexp    = data(:,2:4);
 
 tsim    = texp(end);
-
-x0      = [ 0.1000   % Ks
-            3.5000   % qSmax
-            0.4900   % Ysoxx
-            0.3968   % Yos
-            10.000   % Kie
-            0.4800   % Yes
-            0.1000   % Kec
-            0.0200   % Ysofx
-            1.1040   % Yoe
-            0.7200   % Yxe
-            0.2560   % qOmax
-            100e-6]; % Yosof
+%            qSmax Ysoxx    Kec       Yex   qOmax  
+x0      = [3.996 0.296 0.0051 1.7531 0.3497 ]; 
                 
 % MEIGO Settings
 problem.f = 'funObj';
-x_B = [ 1e-2, 1;    % Ks
-        1e-2, 4;    % qSmax
-        1e-2, 0.8;  % Ysoxx
-        1e-5, 0.5;  % Yos
-        1e-2, 10;   % Kie
-        1e-2, 1;    % Yes
-        1e-4, 1e-2; % Kec
-        1e-2, 0.5;  % Ysofx
-        1e-2, 2;    % Yoe
-        1e-2, 2;    % Yxe
-        1e-2, 1;    % qOmax
-        1e-4, 1e-1];% Yosof
+x_B = [1e-5,100; %qSmax
+        1e-5, 100;    % Ysoxx
+        1e-5, 100;  % Kec
+        1e-5, 100;  % Yex
+        1e-5, 100];  %qOmax
+        
     
 problem.x_L = x_B(:,1);
 problem.x_U = x_B(:,2);
@@ -44,8 +27,8 @@ opts.maxtime = 1000;
 opts.iterprint = 1;
 
 opts.ndiverse = 2000;
-opts.local.solver = 'lsqnonlin';
-opts.local.finish = 'solnp';
+opts.local.solver = 'fminsearch';
+opts.local.finish = 'fminsearch';
 
 id = 'MATLAB:ode15s:IntegrationTolNotMet';
 warning('off',id)
@@ -127,8 +110,6 @@ xlabel('Time (h)')
 nexttile
 plot(T,C(:,4),'Color',c4,'LineWidth',1.5)
 grid on
-hold on
-plot(texp,yexp(:,4),'s','Color',c4,'LineWidth',1)
 ylabel('Dissolved Oxygen (g/L)')
 xlabel('Time (h)')
 

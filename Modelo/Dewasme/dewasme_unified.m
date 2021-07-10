@@ -18,18 +18,23 @@ osat    = v(6);
 Ko      = v(7);
 
 % Adjusted parameters (all cases)
-Ks      = k(1);
-qSmax   = k(2);
-Ysoxx   = k(3);
-Yso     = k(4);
-Kio     = k(5);
-Yse     = k(6);
-Kec     = k(7);
-Ysofx   = k(8);
-Yeo     = k(9);
-Yex     = k(10);
-qOmax   = k(11);
-Yosof   = k(12);
+qSmax = k(1);
+Ysoxx = k(2);
+Kec = k(3);
+Yex = k(4);
+qOmax = k(5);
+
+
+%FIXED
+% qSmax = 1;
+Yeo     = 1.998;
+Yosof   = 0.0001;
+Yso     = 0.3438;
+Kio     = 4.7323;
+Ks      = 0.1414;
+Yse     = 0.9634;
+Ysofx   = 0.3294; 
+% Ysofx = 0;
 
 % Constitutive equations
 qS      = qSmax*S/(S+Ks);

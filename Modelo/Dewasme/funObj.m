@@ -3,7 +3,7 @@ function f = funObj(k)
 data = load('data.csv');
 
 texp    = data(:,1)';
-yexp    = data(:,2:5);
+yexp    = data(:,2:4);
 
 % Fixed parameters
 muset   = 0.11;
@@ -45,20 +45,16 @@ else
     points = "...";
 end
 disp('Iterating'+" "+points)
-
+wt = [1 1 1];
 [~ , Y] = ode15s(fun,tspan,y0,options);
 
-wt = [1 10 1 1];
-
-if ~ isequal(size(Y(:,1:4)),size(yexp))
-    n = 1e10*ones(1,4);
-    f = dot(wt,n);
+if ~ isequal(size(Y(:,1:3)),size(yexp))
+    f = 1e20;
 else
-    nX = norm(Y(:,1) - yexp(:,1));
-    nS = norm(Y(:,2) - yexp(:,2));
-    nE = norm(Y(:,3) - yexp(:,3));
-    nO = norm(Y(:,4) - yexp(:,4));
-    n = [nX nS nE nO].^2;
+    nX = (Y(:,1) -yexp(:,1))./max(yexp(:,1));
+    nS = (Y(:,2) - yexp(:,2))./max(yexp(:,2));
+    nE = (Y(:,3) - yexp(:,3))./max(yexp(:,3));
+    n = sum([nX nS nE].^2);
     f = dot(wt,n);
 end
 end
