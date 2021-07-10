@@ -99,7 +99,7 @@ th13    = 0.8163; % Yeo     Reparam3
 th9     = 2.2729; % Kis
 th7     = 0.5034; % Kep     Reparam4
 th15    = 0.1955; % Yse
-th5     = 0.045;  % qSmax
+th5     = 0.045;  % Ks
 th8     = 1.6129; % Kie
 
 
