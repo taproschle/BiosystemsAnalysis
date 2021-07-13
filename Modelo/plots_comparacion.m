@@ -16,7 +16,7 @@ cAn  = [0.129 0.565 0.549];  lineAn  = '-';
 cDew = [0.267 0.004 0.329];  lineDew = '-';
 cXu  = [0.976 0.549 0.039];  lineXu  = '-';
 
-or2 = [0.988 0.631 0.031];
+%or2 = [0.988 0.631 0.031];
 %% Biomass:
 figure(1);
 plot(Exp(:,1),Exp(:,2),'s','Color','k','linewidth',1); hold on;
@@ -62,7 +62,7 @@ figure(4);
 plot(An(:,1),An(:,6),lineAn,'Color',cAn,'linewidth',1.5); hold on;
 title('Reactor Volume','fontname','Calibri','fontsize',12)
 plot(Dew(:,1),Dew(:,6),lineDew,'Color',cDew,'linewidth',1.5)
-plot(Xu(:,1),Xu(:,6),'--','Color',cXu,'linewidth',1.5)
+plot(Xu(:,1),Xu(:,6),'-','Color',cXu,'linewidth',1.5)
 legend('Anane','Dewasme','Xu','location','northwest','fontname','Calibri')
 xlabel('Time [hr]')
 ylabel('Volume [L]')
@@ -95,12 +95,13 @@ grid on
 
 %% Growth Constants
 figure(6);
-plot(An(:,1),An(:,7),lineAn,'Color',cAn,'linewidth',1.5); hold on;
+%plot(An(:,1),An(:,7),lineAn,'Color',cAn,'linewidth',1.5); hold on;
+plot(Dew(:,1),Dew(:,7),lineDew,'Color',cDew,'linewidth',1.5); hold on;
 title('Growth constants','fontname','Calibri','fontsize',12)
-plot(Dew(:,1),Dew(:,7),lineDew,'Color',cDew,'linewidth',1.5)
-plot(Xu(:,1),Xu(:,7),lineXu,'Color',cXu,'linewidth',1.5)
+%plot(Xu(:,1),Xu(:,7),lineXu,'Color',cXu,'linewidth',1.5)
 plot([0 Dew(end,1)],[muset muset],'--k','linewidth',1); hold off;
-legend('Anane','Dewasme','Xu','\mu_{set}','fontname','Calibri')
+%legend('Anane','Dewasme','Xu','\mu_{set}','fontname','Calibri')
+legend('Dewasme','\mu_{set}','fontname','Calibri')
 xlabel('Time [hr]')
 ylabel('\mu [hr^{-1}]')
 grid on
@@ -128,9 +129,9 @@ grid on
 %% Inlet plots
 figure(8);
 subplot(2,2,1)
-plot(An(:,1),An(:,10),lineAn,'Color',cAn,'linewidth',1.5); hold on;
+plot(An(:,1),An(:,7),lineAn,'Color',cAn,'linewidth',1.5); hold on;
 plot(Dew(:,1),Dew(:,10),lineDew,'Color',cDew,'linewidth',1.5)
-plot(Xu(:,1),Xu(:,10),lineXu,'Color',cXu,'linewidth',1.5); hold off
+plot(Xu(:,1),Xu(:,7),lineXu,'Color',cXu,'linewidth',1.5); hold off
 title('Inlet Flowrate','fontname','Calibri','fontsize',12)
 legend('Anane','Dewasme','Xu','location','best','fontname','Calibri')
 xlabel('Time [hr]')
@@ -138,9 +139,9 @@ ylabel('F [L/hr]')
 grid on
 
 subplot(2,2,2)
-plot(An(:,1),An(:,11),lineAn,'Color',cAn,'linewidth',1); hold on;
+plot(An(:,1),An(:,8),lineAn,'Color',cAn,'linewidth',1); hold on;
 plot(Dew(:,1),Dew(:,11),lineDew,'Color',cDew,'linewidth',1)
-plot(Xu(:,1),Xu(:,11),lineXu,'Color',cXu,'linewidth',1); hold off
+plot(Xu(:,1),Xu(:,8),lineXu,'Color',cXu,'linewidth',1); hold off
 title('Agitation Rate','fontname','Calibri','fontsize',12)
 legend('Anane','Dewasme','Xu','location','best','fontname','Calibri')
 xlabel('Time [hr]')
@@ -149,9 +150,9 @@ ylim([297 603])
 grid on
 
 subplot(2,2,3)
-plot(An(:,1),An(:,12),lineAn,'Color',cAn,'linewidth',1); hold on;
+plot(An(:,1),An(:,9),lineAn,'Color',cAn,'linewidth',1); hold on;
 plot(Dew(:,1),Dew(:,12),lineDew,'Color',cDew,'linewidth',1)
-plot(Xu(:,1),Xu(:,12),lineXu,'Color',cXu,'linewidth',1); hold off
+plot(Xu(:,1),Xu(:,9),lineXu,'Color',cXu,'linewidth',1); hold off
 title('Aeration rate','fontname','Calibri','fontsize',12)
 legend('Anane','Dewasme','Xu','location','best','fontname','Calibri')
 xlabel('Time [hr]')
@@ -160,9 +161,9 @@ ylim([0.195 0.605])
 grid on
 
 subplot(2,2,4)
-plot(An(:,1),An(:,13),lineAn,'Color',cAn,'linewidth',1); hold on;
+plot(An(:,1),An(:,10),lineAn,'Color',cAn,'linewidth',1); hold on;
 plot(Dew(:,1),Dew(:,13),lineDew,'Color',cDew,'linewidth',1)
-plot(Xu(:,1),Xu(:,13),lineXu,'Color',cXu,'linewidth',1); hold off
+plot(Xu(:,1),Xu(:,10),lineXu,'Color',cXu,'linewidth',1); hold off
 title('O_2% of Inlet Airflow','fontname','Calibri','fontsize',12)
 legend('Anane','Dewasme','Xu','location','best','fontname','Calibri')
 xlabel('Time [hr]')
