@@ -26,7 +26,7 @@ X = x(1);   % Biomass (g/L)
 S = x(2);   % Substrate (g/L)
 E = x(3);   % Ethanol (g/L)
 O = x(4);   % Dissolved Oxygen (g/L)
-
+V = x(5);
 
 % Fixed parameters
 muset   = 0.197;
@@ -34,26 +34,18 @@ X0      = 4.04;
 V0      = 0.3;
 Sin     = 450;
 klao2   = 180*100;
-osat    = 0.035;
+osat    = 0.008;
 Ko      = 0.0001;
 Kio     = 4;
-V = V0;
 
 % Adjusted parameters (all cases)
-% Ks      = k(5);
-qSmax   = k(1);
-Ysoxx   = k(3);
-% qm      = k(4);
-Yso     = k(5);
-% Kie     = k(7);
-% Yse     = k(13);
-% Kec     = k(6);
-% qEcmax   = k(2);
-Ysofx   = k(4);
-% Yeo     = k(11);
-% Yex     = k(12);
-qOmax   = k(2);
-%FIXED 
+
+qSmax   = p(1);
+Ysoxx   = p(3);
+Yso     = p(5);
+Ysofx   = p(4);
+qOmax   = p(2);
+%FIXED
 
 Yeo     = 0.7607;
 Yex     = 0.155;
@@ -63,8 +55,6 @@ Kec     = 0.5019;
 qEcmax   = 0.1224;
 qm      = 0.0575;
 Ks      = 0.1034;
-
-
 
 % % Adjusted parameters (overflow)
 % Kie     = kof(1);
@@ -76,7 +66,7 @@ Ks      = 0.1034;
 % Yxe     = kof(7);
 % qOmax   = kof(8);
 % Kio     = kof(9);
-a = 100;
+a = 80;
 % Constitutive equations
 qS      = (qSmax*S/(Ks+S))*1/(1+(E/Kie));
 qOs     = qOmax*(O/(Ko+O))*(1/(1+(E/Kio)));
@@ -102,7 +92,7 @@ dxdt(2) = D*(Sin-S)-qS*X;           % dSdt
 dxdt(3) = (qEp-qEc)*X-D*E;          % dEdt
 dxdt(4) = klao2*(osat-O)-qO*X-D*O;  % dOdt
                       % dVdt
-
+dxdt(5) = F;
 dxdt = dxdt';
 
 

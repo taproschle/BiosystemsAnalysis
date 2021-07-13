@@ -14,6 +14,7 @@ ydata = evalin('base','ydata');
 
 %Resolution of ODEs:
 [~,xmod] = solve_ODE(k,texp);
+xmod = xmod(:,1:3);
 
 %Return de normalized measured variables:
 [ymod,~] = obj_var(xmod,ydata);

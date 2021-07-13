@@ -23,13 +23,13 @@ function [kL,k0,kU,opts_SSm,texp,ydata,x0,solver_ODE,opts_ODE,T,U] =...
 
 %Lower, initial and upper values for each parameter in SSm:%
 
-%  P = [ p1 p2    p3    p4    p5 p6 p7 p8 p9 p10 p11 p12 p13 ]
-kL   = [0.1  0.1   0.1   0.1    0.1 ];
-k0   = [1.6041 0.2569 0.2014 0.6751 0.8965];
-kU   = [2 1 1 1 1];
+%  P = [ p1 p2    p3    p4    p5]
+kL   = [ 1e-2        1e-2        1e-2      1e-2       1e-2  ];
+k0   = [ 1.6041 0.2569 0.2014 0.6751 0.8965 ];
+kU   = [ 10            10                10                 10              10 ];
 
 %SSm options:
-opts_SSm.maxeval      = 10000;
+opts_SSm.maxeval      = 1000;
 opts_SSm.local.n1     = 100;
 opts_SSm.maxtime      = 100;
 opts_SSm.strategy     = 3;
@@ -39,15 +39,15 @@ opts_SSm.combination  = 1;
 
 %Experimental Data:
 % [Time X S P]
-data  = table2array(readtable('dataferm2.csv')); %edit here
-data = data(2:length(data),1:5);
+data  = table2array(readtable('data.csv')); %edit here
+data = data(2:length(data),1:4);
 [~,n] = size(data); 
 texp  = data(:,1)';
 ydata = data(:,2:n);
 
 %Initial conditions for integration:
 %      X S E O 
-x0 = [4.04 0.001 3.95 0.0024]; 
+x0 = [4.04 0.001 3.95 0.0007 0.3]; 
 
 %ODE options:
 solver_ODE = 'ode23';
@@ -60,4 +60,4 @@ T = 0.95;
 %Threshold for iterations (criterion III):
 U = 1.5;
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

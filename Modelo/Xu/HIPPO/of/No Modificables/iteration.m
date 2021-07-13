@@ -48,8 +48,7 @@ ydata = evalin('base','ydata');
 %============================ OPTIMIZATION ============================
 
 assignin('base','kfixed',kfixed);
-
-solucion_converge = false;
+solucion_converge  = false;
 while ~solucion_converge
     Results = ess_kernel(problem,opts,texp,ydata);
     if exist('Results','var')~=0
@@ -65,8 +64,7 @@ k_SSm    = Results.xbest;
 CPU_time = Results.cpu_time;
 
 [J_SSm,~,~] = obj_func(k_SSm,texp,ydata);
-%% edito dani
-% plotResults(k_SSm,texp,ydata); aqui
+
 %%
 %========================= REGRESSION ANALYSIS ========================
 

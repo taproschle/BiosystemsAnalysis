@@ -26,7 +26,7 @@ X = x(1);   % Biomass (g/L)
 S = x(2);   % Substrate (g/L)
 E = x(3);   % Ethanol (g/L)
 O = x(4);   % Dissolved Oxygen (g/L)
-
+V = x(5);
 
 % Fixed parameters
 muset   = 0.11;
@@ -36,24 +36,25 @@ Sin     = 450;
 klao2   = 180*100;
 osat    = 0.008;
 Ko      = 0.0001;
-V  = V0;
+
 
 % Adjusted parameters (all cases)
 % Ks      = k(5);
-qSmax   = k(1);
-Ysoxx   = k(4);
+qSmax   = p(1);
+Ysoxx   = p(4);
 % qm      = k(4);
 % Yso     = k(12);
 % Kie     = k(8);
 % qEpmax   = k(3);
 % Kep     = k(8);
 % Yse     = k(15);
-Kec     = k(3);
-qEcmax   = k(2);
+Kec     = p(3);
+qEcmax   = p(2);
 % Kis     = k(9);
-Ysofx   = k(5);
+Ysofx   = p(5);
 % Yeo     = k(13);
-Yex     = k(6);
+Yex     = p(6);
+
 
 %FIXED
 qm = 0.0067;
@@ -79,12 +80,13 @@ F0      = muset*(X0*V0)/(Ysoxx*Sin);
 F       = F0*exp(muset*t);
 D       = F/V;
 
+
 % ODEs
 dxdt(1) = X*(mu-D);                 % dXdt
 dxdt(2) = D*(Sin-S)-qS*X;           % dSdt
 dxdt(3) = qE*X-D*E;                 % dEdt
 dxdt(4) = klao2*(osat-O)-qO*X-D*O;  % dOdt
-
+dxdt(5) = F;
 
 
 dxdt = dxdt';
