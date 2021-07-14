@@ -50,7 +50,7 @@ ydata = data(:,2:n);
 x0 = [4.04 0.001 3.95 0.0007 0.3]; 
 
 %ODE options:
-solver_ODE = 'ode23';
+solver_ODE = 'ode15s';
 opts_ODE   = odeset('RelTol',1e-4,'AbsTol',1e-7);
 
 %Threshold for correlations (any couple of parameters with a correlation

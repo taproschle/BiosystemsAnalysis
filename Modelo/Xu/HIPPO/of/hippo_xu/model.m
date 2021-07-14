@@ -41,10 +41,12 @@ Kio     = 4;
 % Adjusted parameters (all cases)
 
 qSmax   = p(1);
-Ysoxx   = p(3);
-Yso     = p(5);
-Ysofx   = p(4);
 qOmax   = p(2);
+Ysoxx   = p(3);
+Ysofx   = p(4);
+Yso     = p(5);
+
+
 %FIXED
 
 Yeo     = 0.7607;
