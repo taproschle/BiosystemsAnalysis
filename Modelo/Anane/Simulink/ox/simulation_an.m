@@ -44,16 +44,25 @@ O2s  = A_1_min/Henry;
 spO2 = 0.3*O2s;
 
 % PARÁMETROS:
-load kAn.mat k
-load vAn.mat v
+% load kAn.mat k
+% load vAn.mat v
+% mu_set  = v(1);
+% Xin     = v(2);
+% Vin     = v(3);
+% Sfeed   = v(4);
+% klao2   = v(5);
+% osat    = v(6);
+% Ko      = v(7);
 
-mu_set  = v(1);
-Xin     = v(2);
-Vin     = v(3);
-Sfeed   = v(4);
-klao2   = v(5);
-osat    = v(6);
-Ko      = v(7);
+mu_set   = 0.11;
+Xin      = 4.125;
+Vin      = 0.3;
+Sfeed     = 450;
+klao2   = 180*100;
+osat    = 0.008;
+Ko      = 0.0001;
+v       = [mu_set Xin Vin Sfeed klao2 osat Ko];
+save('vAn.mat','v')
 
 % Parametros ajustados por simulink (Fijando por FIA)
 Kep = 0.73784;
@@ -101,10 +110,10 @@ save('simdata_an','dataAn')
 
 %% Gráfico:
 
-load data.csv
+load data_ox.csv
 
-texp    = data(:,1)';
-yexp    = data(:,2:4);
+texp    = data_ox(:,1)';
+yexp    = data_ox(:,2:4);
 
 figure(1)
 subplot(2,2,1)
